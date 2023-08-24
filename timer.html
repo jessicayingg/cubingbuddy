@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Stopwatch</title>
+        <link rel="stylesheet" href="styles/timer-style.css">
+        <link rel="stylesheet" href="styles/sidebar-style.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="big-container">
+            <div class="left-side">
+                <div class="titles-container">
+                    <button class="js-logo sidebar-button">
+                        <img class="logo" src="icons/cubingbuddy_logo.png">
+                    </button>
+                    <p class="title">Time</p>
+                    <p class="title">Ao5</p>
+                </div>
+
+                <div class="big-times-container">
+                    <div class="js-times times-container">
+    
+                    </div>
+                </div>
+
+                <div class="pb-titles-container">
+                    <p class="pb-title">PBs</p>
+                    <p class="pb-title">Type</p>
+                </div>
+
+                <div class="js-pbs personal-bests-container">
+
+                </div>
+            </div>
+
+            <div class="right-side">
+                <div class="upper-container">
+                    <div class="display-container">
+                        <p class="js-display display">0.000</p>
+                    </div>
+
+                    <div class="scramble-pic-container">
+                        <select class="js-dropdown cube-type-dropdown">
+                            <option>3x3</option>
+                            <option>Pyraminx</option>
+                            <option>Skewb</option>
+                            <option>2x2</option>
+                            <option>4x4</option>
+                            <option>5x5</option>
+                            <option>6x6</option>
+                            <option>Square-1</option>
+                            <option>Clock</option>
+                            <option>Megaminx</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="middle-container">
+                    <button class="js-prev prev-scramble-button">
+                        <img class="js-prev-icon scramble-nav-icon no-prev-scramble" src="icons/prev-icon.png">
+                    </button>
+                    
+                    <p class="js-scramble scramble"></p>
+
+                    <button class="js-next next-scramble-button">
+                        <img class="scramble-nav-icon" src="icons/next-icon.png">
+                    </button>
+                </div>
+
+                <div class="bottom-container">
+                    <div class="typing-container">
+                        <input class="js-user-input manual-time-entry" type="text" placeholder="Type to add result">
+                        <button class="js-manual-result enter-result-button">Enter</button>
+                    </div>
+
+                    <div class="last-container">
+                        hi
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+        <nav class="sidebar">
+            <div class="sidebar-logo">
+                <img src="icons/cubingbuddy_logo.png">
+                <p class="web-name">Cubing Buddy</p>
+            </div>
+            
+            <div class="sidebar-option">
+                <img class="sidebar-icon" src="icons/settings-icon.png">
+                <p class="subtitle">Settings</p>
+            </div>
+
+            <div class="sidebar-option">
+
+            </div>
+        </nav>
+        -->
+
+        <!--<div class="js-cover sidebar-open-cover"></div>-->
+
+
+        <script src="scripts/timer-script.js"></script>
+    </body>
+
+</html>
