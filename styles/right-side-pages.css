@@ -1,0 +1,124 @@
+.page-selector-container {
+    background-color: rgb(226, 182, 203);
+    margin: 15px 20px;
+    height: 40px;
+    border-radius: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.page-selector-container button {
+    height: 40px;
+    border: none;
+    width: 52%;
+    border-radius: 20px;
+    font-size: 16px;
+
+    transition: background-color 0.15s;
+}
+
+.page-selected-button {
+    background-color:rgb(232, 215, 255);
+}
+
+.other-page-button {
+    background-color: transparent;
+}
+
+
+.scramble-pic-container, .goals-container {
+    background-color:rgb(232, 215, 255);
+    margin: 30px 20px;
+
+    border: none;
+
+    height: 300px;
+    border-radius: 20px;
+
+    padding: 15px 20px 0px 20px;
+
+}
+
+.goals-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.cube-type-dropdown {
+    width: 150px;
+    background-color: rgb(239, 229, 241);
+    color: rgb(71, 38, 53);
+    font-size: 18px;
+
+    padding: 4px 8px;
+
+    border-style: solid;
+    border-radius: 4px;
+}
+
+.goal-title {
+    font-size: 20px;
+}
+
+.goals-container input {
+    font-size: 16px;
+    padding: 2px 0px 2px 8px;
+
+    text-align: center;
+    padding-left: 15px;
+    background-color: rgb(242, 233, 255);
+    border-style: solid;
+    border-color:rgb(115, 75, 94);
+    border-radius: 10px;
+}
+
+.sets-options-buttons-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.sets-options-unchosen-button {
+    margin-bottom: 10px;
+    margin-right: 5px;
+
+    box-shadow: 2px 5px 0px rgb(211, 180, 164);
+    border-radius: 5px;
+
+    padding: 5px 10px;
+    background-color: rgb(224, 199, 185);
+    border-style: solid;
+    border-color: rgb(237, 199, 178);
+
+    height: 30px;
+}
+
+.sets-options-chosen-button {
+    margin-right: 5px;
+
+    margin-bottom: 0px;
+    margin-top: 4px;
+    
+    border-radius: 5px;
+    box-shadow: 1px 1px 0px rgb(247, 160, 114);
+    padding: 5px 10px;
+    background-color: rgb(255, 194, 161);
+    border-style: solid;
+    border-color: rgb(255, 200, 170);
+
+    height: 30px;
+}
+
+.sets-options-container input {
+    width: 40%;
+    margin-left: 10px;
+}
+
+.sets-num-container p {
+    display: inline-block;
+}
+
+.rest-options-container p {
+    display: inline-block;
+}

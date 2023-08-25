@@ -1,0 +1,93 @@
+.titles-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    font-size: 30px;
+    
+}
+
+.logo {
+    height: 70px;
+    width: 70px;
+    border: none;
+
+    margin-top: -10px;
+    margin-left: -12px;
+}
+
+.title {
+    margin-left: 15px;
+}
+
+.big-times-container {
+    height: 350px;
+
+    box-shadow: inset 0px -5px 5px 0 rgb(0, 0, 0, 0.1), inset 0px 5px 5px 0 rgb(0, 0, 0, 0.1);
+}
+
+.times-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    font-size: 24px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    max-height: 350px;
+
+    /*
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    */
+    width: 270px;
+
+    margin-left: 40px;
+
+}
+
+.times-container::-webkit-scrollbar {
+    background-color: transparent;
+}
+
+.time {
+    color:rgb(84, 73, 86);
+}
+
+.average {
+    margin-left: 15px;
+    color:rgb(84, 73, 86);
+}
+
+.personal-bests-container {
+    font-size: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    margin-left: 12px;
+
+}
+
+.pb-titles-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-self: center;
+    width: 300px;
+    margin-left: 12px;
+
+    /*
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color:rgb(71, 38, 53);
+    */
+    
+}
+
+.pb-title {
+    font-size: 20px;
+    text-align: center;
+}
+
+.pb-text {
+    font-size: 16px;
+}
