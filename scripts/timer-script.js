@@ -24,7 +24,9 @@ const prevIconElement = document.querySelector('.js-prev-icon');
 const sidebar = document.querySelector('.js-sidebar');
 const sidebarCover = document.querySelector('.js-cover');
 
-const normalBodyHTML = document.body.innerHTML;
+const ao5SetButton = document.querySelector('.js-ao5');
+const ao12SetButton = document.querySelector('.js-ao12');
+const ao100SetButton = document.querySelector('.js-ao100');
 
 let timerIsStarted = false;
 
@@ -62,6 +64,8 @@ let lastScramble = '';
 
 // TRYING FOR SIDEBAR
 let isSidebarOpen = false;
+
+
 
 // EVENT LISTENERS
 
@@ -153,7 +157,6 @@ logoButton.addEventListener('click', (event) => {
     if(!isSidebarOpen) {
         openSideBar();
         isSidebarOpen = true;
-        console.log('hi');
     }
 });
 
@@ -185,6 +188,24 @@ otherPageButton.addEventListener('click', (event) => {
 
     scramblePage.classList.add('hidden');
     goalsPage.classList.remove('hidden');
+});
+
+ao5SetButton.addEventListener('click', (event) => {
+    ao5SetButton.classList.add('sets-options-chosen-button');
+    ao12SetButton.classList.remove('sets-options-chosen-button');
+    ao100SetButton.classList.remove('sets-options-chosen-button');
+});
+
+ao12SetButton.addEventListener('click', (event) => {
+    ao12SetButton.classList.add('sets-options-chosen-button');
+    ao5SetButton.classList.remove('sets-options-chosen-button');
+    ao100SetButton.classList.remove('sets-options-chosen-button');
+});
+
+ao100SetButton.addEventListener('click', (event) => {
+    ao100SetButton.classList.add('sets-options-chosen-button');
+    ao5SetButton.classList.remove('sets-options-chosen-button');
+    ao12SetButton.classList.remove('sets-options-chosen-button');
 });
 
 // Starting and stopping timer
@@ -482,22 +503,14 @@ var cstimerScrambler = (function() {
 	}
 })();
 
+// HERE
+cstimerScrambler.getScramble(['333'], function(scramble) {
+    scrambleElement.innerHTML = scramble;
+});
+
 // cstimerScrambler.getScramble(scrambleArgs, callback);
 // scrambleArgs: [scramble type, scramble length (can be ignored for some scramble types), specific state (for oll, pll, etc) or undefined]
 // callback: callback function with one parameter, which is the generated scramble.
-
-// Example
-cstimerScrambler.getScramble(['333'], function(scramble) {
-	console.log(scramble); //should return a 3x3x3 random state scramble
-});
-
-cstimerScrambler.getScramble(['444wca'], function(scramble) {
-	console.log(scramble); //this will take several seconds
-});
-
-cstimerScrambler.getScramble(['555wca', 60], function(scramble) {
-	console.log(scramble); //In this example, scramble length is required.
-});
 
 // Type    Description
 // 333     3x3x3 random state scramble

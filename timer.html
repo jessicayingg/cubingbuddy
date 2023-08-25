@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="js-scramble-container scramble-pic-container">
-                            <select class="js-dropdown cube-type-dropdown">
+                            <select class="js-dropdown cube-type-dropdown" onchange="getNewScramble()">
                                 <option>3x3</option>
                                 <option>Pyraminx</option>
                                 <option>Skewb</option>
@@ -78,11 +78,14 @@
                             <div class="goal-title">sets: </div>
                             <div class="sets-options-container">
                                 <div class="sets-options-buttons-container">
-                                    <button class="sets-options-chosen-button">ao5</button>
-                                    <button class="sets-options-unchosen-button">ao12</button>
-                                    <button class="sets-options-unchosen-button">ao100</button>
+                                    <button class="js-ao5 sets-options-unchosen-button">ao5</button>
+                                    <button class="js-ao12 sets-options-unchosen-button">ao12</button>
+                                    <button class="js-ao100 sets-options-unchosen-button">ao100</button>
                                 </div>
-                                <input class="" type="number" min="0" max="50" value="0">
+                                <div class="sets-num-container">
+                                    <p># of sets: </p>
+                                    <input type="number" min="0" max="50" value="0">
+                                </div>
                             </div>
 
                             <div class="goal-title">rest: </div>
