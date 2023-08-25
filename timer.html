@@ -6,6 +6,7 @@
         <title>Stopwatch</title>
         <link rel="stylesheet" href="styles/timer-style.css">
         <link rel="stylesheet" href="styles/sidebar-style.css">
+        <link rel="stylesheet" href="styles/general.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,19 +46,55 @@
                         <p class="js-display display">0.000</p>
                     </div>
 
-                    <div class="scramble-pic-container">
-                        <select class="js-dropdown cube-type-dropdown">
-                            <option>3x3</option>
-                            <option>Pyraminx</option>
-                            <option>Skewb</option>
-                            <option>2x2</option>
-                            <option>4x4</option>
-                            <option>5x5</option>
-                            <option>6x6</option>
-                            <option>Square-1</option>
-                            <option>Clock</option>
-                            <option>Megaminx</option>
-                        </select>
+                    <div class="upper-right-container">
+                        <div class="page-selector-container">
+
+                            <button class="js-selected-button page-selected-button">Draw Scramble</button>
+                            <button class="js-other-button other-page-button">Set Goals</button>
+
+                        </div>
+
+                        <div class="js-scramble-container scramble-pic-container">
+                            <select class="js-dropdown cube-type-dropdown">
+                                <option>3x3</option>
+                                <option>Pyraminx</option>
+                                <option>Skewb</option>
+                                <option>2x2</option>
+                                <option>4x4</option>
+                                <option>5x5</option>
+                                <option>6x6</option>
+                                <option>Square-1</option>
+                                <option>Clock</option>
+                                <option>Megaminx</option>
+                            </select>
+                        </div>
+
+                        <div class="js-goals goals-container hidden">
+                            <div class="goal-title">num solves: </div>
+                            <div>
+                                <input class="" type="number" min="0" max="50" value="0">
+                            </div>
+
+                            <div class="goal-title">sets: </div>
+                            <div class="sets-options-container">
+                                <div class="sets-options-buttons-container">
+                                    <button class="sets-options-chosen-button">ao5</button>
+                                    <button class="sets-options-unchosen-button">ao12</button>
+                                    <button class="sets-options-unchosen-button">ao100</button>
+                                </div>
+                                <input class="" type="number" min="0" max="50" value="0">
+                            </div>
+
+                            <div class="goal-title">rest: </div>
+                            <div class="rest-options-container">
+                                <input class="" type="number" min="0" max="50" value="0">
+                                <p>solves before rest</p>
+                                <input class="" type="number" min="0" max="50" value="0">
+                                <p>seconds of rest</p>
+                            </div>
+
+                            <button>Reset</button>
+                        </div>
                     </div>
                 </div>
 
@@ -86,8 +123,7 @@
             </div>
         </div>
 
-        <!--
-        <nav class="sidebar">
+        <nav class="js-sidebar sidebar hidden">
             <div class="sidebar-logo">
                 <img src="icons/cubingbuddy_logo.png">
                 <p class="web-name">Cubing Buddy</p>
@@ -102,9 +138,8 @@
 
             </div>
         </nav>
-        -->
 
-        <!--<div class="js-cover sidebar-open-cover"></div>-->
+        <div class="js-cover screen-cover hidden"></div>
 
 
         <script src="scripts/timer-script.js"></script>

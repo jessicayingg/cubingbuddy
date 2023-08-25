@@ -4,14 +4,25 @@
 const stopwatchDisplay = document.querySelector('.js-display');
 const timesDisplay = document.querySelector('.js-times');
 const pbDisplay = document.querySelector('.js-pbs');
+
 const inputElement = document.querySelector('.js-user-input');
 const enterButton = document.querySelector('.js-manual-result');
-const dropdown = document.querySelector('.js-dropdown');
+
+const dropDownElement = document.querySelector('.js-dropdown');
+const curPageButton = document.querySelector('.js-selected-button');
+const otherPageButton = document.querySelector('.js-other-button');
+const scramblePage = document.querySelector('.js-scramble-container');
+const goalsPage = document.querySelector('.js-goals');
+
 const logoButton = document.querySelector('.js-logo');
+
 const scrambleElement = document.querySelector('.js-scramble');
 const nextButton = document.querySelector('.js-next');
 const prevButton = document.querySelector('.js-prev');
 const prevIconElement = document.querySelector('.js-prev-icon');
+
+const sidebar = document.querySelector('.js-sidebar');
+const sidebarCover = document.querySelector('.js-cover');
 
 const normalBodyHTML = document.body.innerHTML;
 
@@ -38,10 +49,13 @@ let displayReadyCounter = 0;
 let timesList = [];
 let bestSingle = Number.MAX_VALUE;
 let bestAo5 = Number.MAX_VALUE;
+let bestAo12 = Number.MAX_VALUE;
 
 // For averages
 let curAo5List = [];
 let curAo5;
+let curAo12List = [];
+let curAo12;
 
 // For scramble
 let lastScramble = '';
@@ -139,6 +153,7 @@ logoButton.addEventListener('click', (event) => {
     if(!isSidebarOpen) {
         openSideBar();
         isSidebarOpen = true;
+        console.log('hi');
     }
 });
 
@@ -148,6 +163,28 @@ nextButton.addEventListener('click', (event) => {
 
 prevButton.addEventListener('click', (event) => {
     getLastScramble();
+});
+
+curPageButton.addEventListener('click', (event) => {
+    otherPageButton.classList.add('other-page-button');
+    otherPageButton.classList.remove('page-selected-button');
+
+    curPageButton.classList.add('page-selected-button');
+    curPageButton.classList.remove('other-page-button');
+
+    scramblePage.classList.remove('hidden');
+    goalsPage.classList.add('hidden');
+});
+
+otherPageButton.addEventListener('click', (event) => {
+    curPageButton.classList.add('other-page-button');
+    curPageButton.classList.remove('page-selected-button');
+
+    otherPageButton.classList.add('page-selected-button');
+    otherPageButton.classList.remove('other-page-button');
+
+    scramblePage.classList.add('hidden');
+    goalsPage.classList.remove('hidden');
 });
 
 // Starting and stopping timer
@@ -270,11 +307,23 @@ function recordTime(fromTimer) {
         curAo5List.push(curTime);
     }
 
+    // Adding to ao12
+    if(curAo12List.length < 12) {
+        // Just adding if less than 5 solves recorded
+        curAo12List.push(curTime);
+    }
+    else {
+        // Delete first solve, add on the new one
+        curAo12List.splice(0, 1);
+        curAo12List.push(curTime);
+    }
+
     console.log(timesList);
     console.log('Best single: ' + bestSingle);
     console.log(curAo5List);
 
-    findAverage();
+    findAverageOf5();
+    findAverageOf12();
     //addTimes();
     addTime();
     addPbs();
@@ -283,7 +332,7 @@ function recordTime(fromTimer) {
 }
 
 // To find average of 5
-function findAverage() {
+function findAverageOf5() {
     let total = 0;
     let highest = curAo5List[0];
     let lowest = curAo5List[0];
@@ -313,29 +362,39 @@ function findAverage() {
         bestAo5 = curAo5;
     }
 }
-/*
-function addTimes() {
-   let HTMLToAdd = '';
 
-    timesList.forEach((time, index) => {
-        if(curAo5List.length < 5) {
-            HTMLToAdd = `
-            <p class="num">${index+1}</p>
-            <p class="time">${time.toFixed(3)}</p>
-            <p class="average">-</p>
-        ` + HTMLToAdd;
-        }
-        else {
-            HTMLToAdd = `
-            <p class="num">${index+1}</p>
-            <p class="time">${time.toFixed(3)}</p>
-            <p class="average">${curAo5}</p>
-        ` + HTMLToAdd;
-        }
-    });
+// To find average of 12
+function findAverageOf12() {
+    let total = 0;
+    let highest = curAo12List[0];
+    let lowest = curAo12List[0];
+    let cur = 0;
+    
+    if(curAo12List.length >= 12) {
+        for(let i = 0; i < 12; i++) {
+            cur = curAo12List[i];
 
-    timesDisplay.innerHTML = HTMLToAdd;
-} */
+            total += cur;
+
+            if(cur > highest) {
+                highest = cur;
+            }
+            else if(cur < lowest) {
+                lowest = cur;
+            }
+
+        }
+
+        total -= (highest + lowest);
+        curAo12 = (total/10).toFixed(2);
+    }
+
+    // find best average
+    if(curAo12 < bestAo12) {
+        bestAo12 = curAo12;
+    }
+}
+
 
 function addTime() {
     let HTMLToAdd = '';
@@ -370,31 +429,14 @@ function addTime() {
 
  // OPENING SIDE BAR
  function openSideBar() {
-    document.body.innerHTML += `
-    <nav class="sidebar">
-        <div class="sidebar-logo">
-            <img src="icons/cubingbuddy_logo.png">
-            <p class="web-name">Cubing Buddy</p>
-        </div>
-        
-        <div class="sidebar-option">
-            <img class="sidebar-icon" src="icons/settings-icon.png">
-            <p class="subtitle">Settings</p>
-        </div>
-
-        <div class="sidebar-option">
-
-        </div>
-    </nav>
-
-    <div class="js-cover sidebar-open-cover"></div>
-    `;
-
+    sidebar.classList.remove('hidden');
+    sidebarCover.classList.remove('hidden');
  }
 
  // CLOSING SIDE BAR
  function closeSideBar() {
-    document.body.innerHTML = normalBodyHTML;
+    sidebar.classList.add('hidden');
+    sidebarCover.classList.add('hidden');
  }
 
 
@@ -477,30 +519,33 @@ function getNewScramble() {
     
     lastScramble = scrambleElement.innerHTML;
 
-    if(dropdown.value === '3x3') {
+    if(dropDownElement.value === '3x3') {
         cstimerScrambler.getScramble(['333'], function(scramble) {
             scrambleElement.innerHTML = scramble;
         });
     }
-    else if(dropdown.value === 'Pyraminx') {
+    else if(dropDownElement.value === 'Pyraminx') {
         cstimerScrambler.getScramble(['pyrso'], function(scramble) {
             scrambleElement.innerHTML = scramble;
         });
     }
-    else if(dropdown.value === 'Skewb') {
+    else if(dropDownElement.value === 'Skewb') {
         cstimerScrambler.getScramble(['skbso'], function(scramble) {
             scrambleElement.innerHTML = scramble;
         });
     }
-    else if(dropdown.value === '2x2') {
+    else if(dropDownElement.value === '2x2') {
         cstimerScrambler.getScramble(['222so'], function(scramble) {
             scrambleElement.innerHTML = scramble;
         });
     }
-    else if(dropdown.value === '4x4') {
+    else if(dropDownElement.value === '4x4') {
         cstimerScrambler.getScramble(['444'], function(scramble) {
             scrambleElement.innerHTML = scramble;
         });
+    }
+    else {
+        scrambleElement.innerHTML = '-';
     }
 
     prevIconElement.classList.remove('no-prev-scramble');
@@ -517,20 +562,34 @@ function getLastScramble() {
 function addPbs() {
     let HTMLToAdd2 = '';
 
-    if(curAo5List.length >= 5) {
+    if(curAo12List.length >= 12) {
         HTMLToAdd2 += `
-        <p>${bestSingle}</p>
-        <p>Single</p>
-        <p>${bestAo5}</p>
-        <p>Ao5</p>
+        <p class="pb-text">${bestSingle}</p>
+        <p class="pb-text">Single</p>
+        <p class="pb-text">${bestAo5}</p>
+        <p class="pb-text">Ao5</p>
+        <p class="pb-text">${bestAo12}</p>
+        <p class="pb-text">Ao12</p>
+    `;
+    }
+    else if(curAo5List.length >= 5) {
+        HTMLToAdd2 += `
+        <p class="pb-text">${bestSingle}</p>
+        <p class="pb-text">Single</p>
+        <p class="pb-text">${bestAo5}</p>
+        <p class="pb-text">Ao5</p>
+        <p class="pb-text">-</p>
+        <p class="pb-text">Ao12</p>
     `;
     }
     else {
         HTMLToAdd2 += `
-        <p>${bestSingle.toFixed(2)}</p>
-        <p>Single</p>
-        <p>-</p>
-        <p>Ao5</p>
+        <p class="pb-text">${bestSingle.toFixed(2)}</p>
+        <p class="pb-text">Single</p>
+        <p class="pb-text">-</p>
+        <p class="pb-text">Ao5</p>
+        <p class="pb-text">-</p>
+        <p class="pb-text">Ao12</p>
     `;
     }
 
