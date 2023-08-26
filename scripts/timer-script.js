@@ -12,7 +12,9 @@ const dropDownElement = document.querySelector('.js-dropdown');
 const curPageButton = document.querySelector('.js-selected-button');
 const otherPageButton = document.querySelector('.js-other-button');
 const scramblePage = document.querySelector('.js-scramble-container');
-const goalsPage1 = document.querySelector('.js-goals');
+const goalsPage = document.querySelector('.js-goals');
+const goalsPage1 = document.querySelector('.js-goals-first-page');
+const goalsPage2 = document.querySelector('.js-goals-second-page');
 
 const logoButton = document.querySelector('.js-logo');
 
@@ -33,6 +35,9 @@ const setsGoalCover = document.querySelector('.js-sets-goal-cover');
 const restGoalCover = document.querySelector('.js-rest-goal-cover');
 
 const setGoalButton = document.querySelector('.js-set-goal');
+
+const firstPageButton = document.querySelector('.js-first-page');
+const secondPageButton = document.querySelector('.js-second-page');
 
 let timerIsStarted = false;
 
@@ -186,7 +191,9 @@ curPageButton.addEventListener('click', (event) => {
     curPageButton.classList.remove('other-page-button');
 
     scramblePage.classList.remove('hidden');
+    goalsPage.classList.add('hidden');
     goalsPage1.classList.add('hidden');
+    goalsPage2.classList.add('hidden');
 });
 
 otherPageButton.addEventListener('click', (event) => {
@@ -197,6 +204,7 @@ otherPageButton.addEventListener('click', (event) => {
     otherPageButton.classList.remove('other-page-button');
 
     scramblePage.classList.add('hidden');
+    goalsPage.classList.remove('hidden');
     goalsPage1.classList.remove('hidden');
 });
 
@@ -239,6 +247,22 @@ restGoalCover.addEventListener('click', (event) => {
 sidebarCover.addEventListener('click', (event) => {
     closeSideBar();
     isSidebarOpen = false;
+});
+
+firstPageButton.addEventListener('click', (event) => {
+    goalsPage1.classList.remove('hidden');
+    goalsPage2.classList.add('hidden');
+
+    firstPageButton.classList.remove('not-cur-page');
+    secondPageButton.classList.add('not-cur-page');
+});
+
+secondPageButton.addEventListener('click', (event) => {
+    goalsPage2.classList.remove('hidden');
+    goalsPage1.classList.add('hidden');
+
+    secondPageButton.classList.remove('not-cur-page');
+    firstPageButton.classList.add('not-cur-page');
 });
 
 // Starting and stopping timer
