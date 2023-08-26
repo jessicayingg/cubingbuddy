@@ -27,7 +27,6 @@
     background-color: transparent;
 }
 
-
 .scramble-pic-container, .goals-container {
     background-color:rgb(232, 215, 255);
     margin: 30px 20px;
@@ -42,8 +41,7 @@
 }
 
 .goals-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
+    position: relative;
 }
 
 .cube-type-dropdown {
@@ -58,8 +56,19 @@
     border-radius: 4px;
 }
 
+.num-container, .set-container, .rest-container {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    margin-bottom: 12px;
+    padding: 6px 8px;
+
+    background-color: rgb(242, 233, 255);
+    border-radius: 10px;
+}
+
 .goal-title {
-    font-size: 20px;
+    font-size: 18px;
+    margin-right: 10px;
 }
 
 .goals-container input {
@@ -122,3 +131,55 @@
 .rest-options-container p {
     display: inline-block;
 }
+
+.num-container-cover, .set-container-cover, .rest-container-cover {
+    background-color: rgb(35, 35, 35, 0.3);
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    border-radius: 10px;
+}
+
+.num-container-cover {
+    top: 15px;
+    height: 38px;
+}
+
+.set-container-cover {
+    top: 65px;
+    height: 103px;
+}
+
+.rest-container-cover {
+    top: 180px;
+    height: 114px;
+}
+
+.set-goal-button {
+    padding: 4px 8px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: rgb(115, 75, 94);
+    border-radius: 10px;
+    background-color:rgb(232, 215, 255);
+    font-size: 14px;
+    margin-right: 20%;
+}
+
+.first-page-button, .second-page-button {
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: rgb(115, 75, 94);
+    margin-right: 3px;
+}
+
+.cur-page {
+    background-color:rgb(232, 215, 255);
+}
+
+.not-cur-page {
+    background-color:rgb(169, 162, 178);
+}
+

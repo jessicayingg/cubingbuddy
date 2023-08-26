@@ -12,7 +12,7 @@ const dropDownElement = document.querySelector('.js-dropdown');
 const curPageButton = document.querySelector('.js-selected-button');
 const otherPageButton = document.querySelector('.js-other-button');
 const scramblePage = document.querySelector('.js-scramble-container');
-const goalsPage = document.querySelector('.js-goals');
+const goalsPage1 = document.querySelector('.js-goals');
 
 const logoButton = document.querySelector('.js-logo');
 
@@ -27,6 +27,12 @@ const sidebarCover = document.querySelector('.js-cover');
 const ao5SetButton = document.querySelector('.js-ao5');
 const ao12SetButton = document.querySelector('.js-ao12');
 const ao100SetButton = document.querySelector('.js-ao100');
+
+const numGoalCover = document.querySelector('.js-num-goal-cover');
+const setsGoalCover = document.querySelector('.js-sets-goal-cover');
+const restGoalCover = document.querySelector('.js-rest-goal-cover');
+
+const setGoalButton = document.querySelector('.js-set-goal');
 
 let timerIsStarted = false;
 
@@ -137,6 +143,7 @@ document.body.addEventListener('keyup', (event) => {
     }
 });
 
+/*
 document.body.addEventListener('click', (event) => {
     
     if(isSidebarOpen) {
@@ -147,6 +154,9 @@ document.body.addEventListener('click', (event) => {
         }
     }
 });
+*/
+
+
 
 // For the enter button
 enterButton.addEventListener('click', (event) => {
@@ -176,7 +186,7 @@ curPageButton.addEventListener('click', (event) => {
     curPageButton.classList.remove('other-page-button');
 
     scramblePage.classList.remove('hidden');
-    goalsPage.classList.add('hidden');
+    goalsPage1.classList.add('hidden');
 });
 
 otherPageButton.addEventListener('click', (event) => {
@@ -187,7 +197,7 @@ otherPageButton.addEventListener('click', (event) => {
     otherPageButton.classList.remove('other-page-button');
 
     scramblePage.classList.add('hidden');
-    goalsPage.classList.remove('hidden');
+    goalsPage1.classList.remove('hidden');
 });
 
 ao5SetButton.addEventListener('click', (event) => {
@@ -206,6 +216,29 @@ ao100SetButton.addEventListener('click', (event) => {
     ao100SetButton.classList.add('sets-options-chosen-button');
     ao5SetButton.classList.remove('sets-options-chosen-button');
     ao12SetButton.classList.remove('sets-options-chosen-button');
+});
+
+numGoalCover.addEventListener('click', (event) => {
+    numGoalCover.classList.add('hidden');
+    setsGoalCover.classList.remove('hidden');
+    restGoalCover.classList.remove('hidden');
+});
+
+setsGoalCover.addEventListener('click', (event) => {
+    setsGoalCover.classList.add('hidden');
+    numGoalCover.classList.remove('hidden');
+    restGoalCover.classList.remove('hidden');
+});
+
+restGoalCover.addEventListener('click', (event) => {
+    restGoalCover.classList.add('hidden');
+    numGoalCover.classList.remove('hidden');
+    setsGoalCover.classList.remove('hidden');
+});
+
+sidebarCover.addEventListener('click', (event) => {
+    closeSideBar();
+    isSidebarOpen = false;
 });
 
 // Starting and stopping timer
