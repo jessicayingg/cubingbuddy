@@ -24,7 +24,9 @@ const prevButton = document.querySelector('.js-prev');
 const prevIconElement = document.querySelector('.js-prev-icon');
 
 const sidebar = document.querySelector('.js-sidebar');
-const sidebarCover = document.querySelector('.js-cover');
+
+const screenCover = document.querySelector('.js-cover');
+const screenAlert = document.querySelector('.js-alert');
 
 const ao5SetButton = document.querySelector('.js-ao5');
 const ao12SetButton = document.querySelector('.js-ao12');
@@ -35,9 +37,19 @@ const setsGoalCover = document.querySelector('.js-sets-goal-cover');
 const restGoalCover = document.querySelector('.js-rest-goal-cover');
 
 const setGoalButton = document.querySelector('.js-set-goal');
+const resetGoalButton = document.querySelector('.js-reset-goal');
 
 const firstPageButton = document.querySelector('.js-first-page');
 const secondPageButton = document.querySelector('.js-second-page');
+
+const numSolvesInput = document.querySelector('.js-num-solves-input');
+const numSetsInput = document.querySelector('.js-num-sets-input');
+const numRestSolvesInput = document.querySelector('.js-num-rest-solves-input');
+const restDurationInput = document.querySelector('.js-rest-duration-input');
+
+const curGoalDisplay = document.querySelector('.js-cur-goal');
+const goalProgressDisplay = document.querySelector('.js-goal-progress');
+const extraGoalProgressDisplay = document.querySelector('.js-extra-progress');
 
 let timerIsStarted = false;
 
@@ -76,7 +88,12 @@ let lastScramble = '';
 // TRYING FOR SIDEBAR
 let isSidebarOpen = false;
 
-
+let curGoalType = '';
+let numSolvesToComplete = 0;
+let setType = 0;
+let restDuration = 0;
+let numSolvesCompleted = 0;
+let restStarted = false;
 
 // EVENT LISTENERS
 
@@ -106,6 +123,7 @@ document.body.addEventListener('keydown', (event) => {
             // Stop the timer and record the time
             startStopTimer();
             recordTime(true);
+            trackGoal();
         }
     }
     // Escape resets the timer
@@ -206,6 +224,9 @@ otherPageButton.addEventListener('click', (event) => {
     scramblePage.classList.add('hidden');
     goalsPage.classList.remove('hidden');
     goalsPage1.classList.remove('hidden');
+
+    firstPageButton.classList.remove('not-cur-page');
+    secondPageButton.classList.add('not-cur-page');
 });
 
 ao5SetButton.addEventListener('click', (event) => {
@@ -244,7 +265,7 @@ restGoalCover.addEventListener('click', (event) => {
     setsGoalCover.classList.remove('hidden');
 });
 
-sidebarCover.addEventListener('click', (event) => {
+screenCover.addEventListener('click', (event) => {
     closeSideBar();
     isSidebarOpen = false;
 });
@@ -255,6 +276,8 @@ firstPageButton.addEventListener('click', (event) => {
 
     firstPageButton.classList.remove('not-cur-page');
     secondPageButton.classList.add('not-cur-page');
+
+
 });
 
 secondPageButton.addEventListener('click', (event) => {
@@ -263,6 +286,16 @@ secondPageButton.addEventListener('click', (event) => {
 
     secondPageButton.classList.remove('not-cur-page');
     firstPageButton.classList.add('not-cur-page');
+});
+
+setGoalButton.addEventListener('click', (event) => {
+    clearGoalDisplay();
+    setGoal();
+});
+
+resetGoalButton.addEventListener('click', (event) => {
+    resetGoals();
+    clearGoalDisplay();
 });
 
 // Starting and stopping timer
@@ -508,13 +541,13 @@ function addTime() {
  // OPENING SIDE BAR
  function openSideBar() {
     sidebar.classList.remove('hidden');
-    sidebarCover.classList.remove('hidden');
+    screenCover.classList.remove('hidden');
  }
 
  // CLOSING SIDE BAR
  function closeSideBar() {
     sidebar.classList.add('hidden');
-    sidebarCover.classList.add('hidden');
+    screenCover.classList.add('hidden');
  }
 
 
@@ -664,4 +697,139 @@ function addPbs() {
     }
 
     pbDisplay.innerHTML = HTMLToAdd2;
+}
+
+function setGoal() {
+    if(numGoalCover.classList.contains('hidden')) {
+        curGoalType = 'num';
+        numSolvesToComplete = numSolvesInput.value;
+    }
+    else if(setsGoalCover.classList.contains('hidden')) {
+        curGoalType = 'sets';
+        
+        if(ao5SetButton.classList.contains('sets-options-chosen-button')) {
+            setType = 5;
+        }
+        else if(ao12SetButton.classList.contains('sets-options-chosen-button')) {
+            setType = 12;
+        }
+        else if(ao100SetButton.classList.contains('sets-options-chosen-button')) {
+            setType = 100;
+        }
+
+        numSolvesToComplete = numSetsInput.value * setType;
+    }
+    else {
+        curGoalType = 'rest';
+        numSolvesToComplete = numRestSolvesInput.value;
+        restDuration = restDurationInput.value;
+    }
+
+    console.log(curGoalType);
+    console.log(numSolvesToComplete);
+    console.log(restDuration);
+}
+
+function resetGoals() {
+    curGoalType = '';
+    numSolvesToComplete = 0;
+    restDuration = 0;
+    setType = 0;
+
+    numGoalCover.classList.remove('hidden');
+    setsGoalCover.classList.remove('hidden');
+    restGoalCover.classList.remove('hidden');
+
+    numSolvesInput.value = 0;
+    numSetsInput.value = 0;
+    numRestSolvesInput.value = 0;
+    restDurationInput.value = 0;
+
+    ao5SetButton.classList.remove('sets-options-chosen-button');
+    ao12SetButton.classList.remove('sets-options-chosen-button');
+    ao100SetButton.classList.remove('sets-options-chosen-button');
+}
+
+function trackGoal() {
+    
+    if(curGoalType != '') {
+        numSolvesCompleted++;
+
+        displayGoalStats();
+
+        if(curGoalType === 'num') {
+            if(numSolvesCompleted == numSolvesToComplete) {
+                console.log('goal completed!');
+    
+                resetGoals();
+            }
+    
+        }
+        else if(curGoalType === 'sets') {
+            if(numSolvesCompleted % setType === 0) {
+                console.log(numSolvesCompleted/setType + ' sets completed!');
+            }
+    
+            if(numSolvesCompleted == numSolvesToComplete) {
+                console.log('goal completed!');
+    
+                resetGoals();
+            }
+        }
+        else if(curGoalType === 'rest') {
+            if(numSolvesCompleted == numSolvesToComplete) {
+                console.log('rest');
+
+                goalProgressDisplay.innerHTML = numSolvesCompleted + '/' + numSolvesToComplete + ' solves... REST NOW';
+                screenCover.classList.remove('hidden');
+
+                numSolvesCompleted = 0;
+
+                setTimeout(() => {
+                    screenCover.classList.add('hidden');
+                    goalProgressDisplay.innerHTML = 'Starting cycle again... ';
+                }, restDuration*1000);
+                
+            }
+        }
+
+    }
+
+}
+
+function displayGoalStats() {
+
+    if(curGoalType === 'num') {
+        curGoalDisplay.innerHTML = numSolvesToComplete + ' solves';
+        goalProgressDisplay.innerHTML = numSolvesCompleted + '/' + numSolvesToComplete + ' solves';
+    }
+    else if(curGoalType === 'sets') {
+        curGoalDisplay.innerHTML = (numSolvesToComplete / setType) + ' sets ' + '(' + numSolvesToComplete + ' solves)';
+        goalProgressDisplay.innerHTML = numSolvesCompleted + '/' + numSolvesToComplete + ' solves';
+
+        if(numSolvesCompleted % setType === 0) {
+            if(setType == 5) {
+                extraGoalProgressDisplay.innerHTML = 'Set #' + (numSolvesCompleted/setType) + ' average: ' + curAo5;
+            }
+            else if(setType == 12) {
+                extraGoalProgressDisplay.innerHTML = 'Set #' + (numSolvesCompleted/setType) + ' average: ' + curAo12;
+            }
+            else if(setType == 100) {
+                extraGoalProgressDisplay.innerHTML = 'Set #' + (numSolvesCompleted/setType) + ' average: ' + 'hi';
+            }
+        }
+    
+    }
+    else if(curGoalType === 'rest') {
+        curGoalDisplay.innerHTML = numSolvesToComplete + ' solves before ' + restDuration + 's rest';
+        goalProgressDisplay.innerHTML = numSolvesCompleted + '/' + numSolvesToComplete + ' solves';
+
+    }
+
+}
+
+function clearGoalDisplay() {
+    curGoalDisplay.innerHTML = '';
+    goalProgressDisplay.innerHTML = '';
+    extraGoalProgressDisplay.innerHTML = '';
 }

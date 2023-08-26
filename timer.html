@@ -76,7 +76,7 @@
                             <div class="js-goals-first-page goals-container-first hidden">
                                 <div class="num-container">
                                     <div class="goal-title">num solves: </div>
-                                <input class="" type="number" min="0" max="50" value="0">
+                                <input class="js-num-solves-input" type="number" min="0" max="50" value="0">
                                 </div>
     
                                 <div class="set-container">
@@ -89,7 +89,7 @@
                                         </div>
                                         <div class="sets-num-container">
                                             <p># of sets: </p>
-                                            <input type="number" min="0" max="50" value="0">
+                                            <input class="js-num-sets-input" type="number" min="0" max="50" value="0">
                                         </div>
                                     </div>
                                 </div>
@@ -97,17 +97,19 @@
                                 <div class="rest-container">
                                     <div class="goal-title">rest: </div>
                                     <div class="rest-options-container">
-                                        <input class="" type="number" min="0" max="50" value="0">
+                                        <input class="js-num-rest-solves-input" type="number" min="0" max="50" value="0">
                                         <p>solves before rest</p>
-                                        <input class="" type="number" min="0" max="50" value="0">
+                                        <input class="js-rest-duration-input" type="number" min="0" max="300" value="0" step="15">
                                         <p>seconds of rest</p>
                                     </div>
                                 </div>
     
+                                <div>
+                                    <button class="js-set-goal set-goal-button">Set Goal</button>
+                                    <button class="js-reset-goal reset-goal-button">Reset Goals</button>
+                                </div>
     
-                                <button class="js-set-goal set-goal-button">Set Goal</button>
-    
-                                <div class="js-num-goal-cover num-container-cover hidden"></div>
+                                <div class="js-num-goal-cover num-container-cover"></div>
                                 <div class="js-sets-goal-cover set-container-cover"></div>
                                 <div class="js-rest-goal-cover rest-container-cover"></div>
                             </div>
@@ -116,10 +118,18 @@
                             <button class="js-second-page second-page-button not-cur-page"></button>
 
                             <div class="js-goals-second-page goals-container-second hidden">
-                                <p>Current goal: </p>
-                                <p></p>
-                                <p>Goal progress: </p>
-                                <p></p>
+                                <div class="goal-tracker-container">
+                                    <div>
+                                        <p class="current-goal-title">Current goal </p>
+                                    </div>
+                                    <p class="js-cur-goal current-goal"></p>
+                                    <div>
+                                        <p class="goal-progress-title">Goal progress </p>
+                                    </div>
+                                    <p class="js-goal-progress goal-progress"></p>
+                                    <p class="js-extra-progress goal-extra-progress"></p>
+                                </div>
+
                             </div>
                         </div>
                         
@@ -168,7 +178,11 @@
         </nav>
 
         <div class="js-cover screen-cover hidden"></div>
-
+        <!--
+        <div class="js-alert screen-alert">
+            <p class="goal-alert">Goal completed!</p>
+        </div>
+        -->
 
         <script src="scripts/timer-script.js"></script>
     </body>

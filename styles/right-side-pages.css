@@ -155,7 +155,7 @@
     height: 114px;
 }
 
-.set-goal-button {
+.set-goal-button, .reset-goal-button {
     padding: 4px 8px;
     border-style: solid;
     border-width: 3px;
@@ -163,7 +163,7 @@
     border-radius: 10px;
     background-color:rgb(232, 215, 255);
     font-size: 14px;
-    margin-right: 20%;
+    margin-right: 10px;
 }
 
 .first-page-button, .second-page-button {
@@ -179,14 +179,58 @@
 }
 
 .first-page-button {
-    left: 45%;
+    left: 74%;
 }
 
 .second-page-button {
-    left: 52%;
+    left: 80%;
 }
 
 .not-cur-page {
     background-color:rgb(169, 162, 178);
+}
+
+/*
+.screen-alert {
+    position: fixed;
+    left: 30%;
+    top: -20px;
+    right: 30%;
+    height: 200px;
+    background-color: white;
+    box-shadow: 0px 6px 20px rgb(0, 0, 0, 0.3);
+    border-radius: 20px;
+
+    z-index: 100;
+
+    text-align: center;
+}
+
+.goal-alert {
+    margin-top: 90px;
+    font-size: 30px;
+}
+*/
+
+.goals-container-second {
+    text-align: center;
+}
+
+.goal-tracker-container {
+    height: 230px;
+}
+
+.goal-tracker-container div {
+    font-size: 20px;
+    background-color:rgb(203, 147, 173);
+    border-radius: 10px;
+}
+
+.current-goal {
+    margin-bottom: 50px;
+}
+
+.current-goal, .goal-progress {
+    font-size: 18px;
 }
 
