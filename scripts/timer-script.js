@@ -93,52 +93,56 @@ let numSolvesToComplete = 0;
 let setType = 0;
 let restDuration = 0;
 let numSolvesCompleted = 0;
+let goalSet = false;
 let restStarted = false;
 
 // EVENT LISTENERS
 
 // For general keydowns
 document.body.addEventListener('keydown', (event) => {
-    // Spacebar
-    if(event.key === ' ') {
-    
-        if(!timerIsStarted) {
-            // If this is the first instance of spacebar being pressed
-                // If the spacebar is held down, new instances are recorded at set intervals
-            if(!spacePressed) {
-                // Finding the exact moment spacebar was first pressed down
-                startTime = new Date().getTime();
+    if(!restStarted)
+    {
+        // Spacebar
+        if(event.key === ' ') {
+        
+            if(!timerIsStarted) {
+                // If this is the first instance of spacebar being pressed
+                    // If the spacebar is held down, new instances are recorded at set intervals
+                if(!spacePressed) {
+                    // Finding the exact moment spacebar was first pressed down
+                    startTime = new Date().getTime();
 
-                // Starting the red text display - not ready for timer to start
-                stopwatchDisplay.classList.add('not-ready-display');
+                    // Starting the red text display - not ready for timer to start
+                    stopwatchDisplay.classList.add('not-ready-display');
 
-                // Counting for when the timer becomes ready to start
-                readyCounter();
+                    // Counting for when the timer becomes ready to start
+                    readyCounter();
 
-                // Setting space to pressed
-                spacePressed = true;
+                    // Setting space to pressed
+                    spacePressed = true;
+                }
+            }
+            else {
+                // Stop the timer and record the time
+                startStopTimer();
+                recordTime(true);
+                trackGoal();
             }
         }
-        else {
-            // Stop the timer and record the time
-            startStopTimer();
-            recordTime(true);
-            trackGoal();
+        // Escape resets the timer
+        else if(event.key === 'Escape') {
+            // Reset timer
+            resetTimer();
         }
-    }
-    // Escape resets the timer
-    else if(event.key === 'Escape') {
-        // Reset timer
-        resetTimer();
-    }
-    else if(event.key === 'Enter') {
-        manualAddTime();
-    }
-    else if(event.key === 'r') {
-        getNewScramble();
-    }
-    else if(event.key === 'e') {
-        getLastScramble();
+        else if(event.key === 'Enter') {
+            manualAddTime();
+        }
+        else if(event.key === 'r') {
+            getNewScramble();
+        }
+        else if(event.key === 'e') {
+            getLastScramble();
+        }
     }
 });
 
@@ -266,8 +270,10 @@ restGoalCover.addEventListener('click', (event) => {
 });
 
 screenCover.addEventListener('click', (event) => {
-    closeSideBar();
-    isSidebarOpen = false;
+    if(isSidebarOpen) {
+        closeSideBar();
+        isSidebarOpen = false;
+    }
 });
 
 firstPageButton.addEventListener('click', (event) => {
@@ -290,6 +296,7 @@ secondPageButton.addEventListener('click', (event) => {
 
 setGoalButton.addEventListener('click', (event) => {
     clearGoalDisplay();
+    resetGoalStats();
     setGoal();
 });
 
@@ -700,6 +707,7 @@ function addPbs() {
 }
 
 function setGoal() {
+
     if(numGoalCover.classList.contains('hidden')) {
         curGoalType = 'num';
         numSolvesToComplete = numSolvesInput.value;
@@ -733,6 +741,7 @@ function setGoal() {
 function resetGoals() {
     curGoalType = '';
     numSolvesToComplete = 0;
+    numSolvesCompleted = 0;
     restDuration = 0;
     setType = 0;
 
@@ -748,6 +757,14 @@ function resetGoals() {
     ao5SetButton.classList.remove('sets-options-chosen-button');
     ao12SetButton.classList.remove('sets-options-chosen-button');
     ao100SetButton.classList.remove('sets-options-chosen-button');
+}
+
+function resetGoalStats() {
+    curGoalType = '';
+    numSolvesToComplete = 0;
+    numSolvesCompleted = 0;
+    restDuration = 0;
+    setType = 0;
 }
 
 function trackGoal() {
@@ -784,10 +801,12 @@ function trackGoal() {
                 screenCover.classList.remove('hidden');
 
                 numSolvesCompleted = 0;
+                restStarted = true;
 
                 setTimeout(() => {
                     screenCover.classList.add('hidden');
                     goalProgressDisplay.innerHTML = 'Starting cycle again... ';
+                    restStarted = false;
                 }, restDuration*1000);
                 
             }
