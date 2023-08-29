@@ -51,6 +51,9 @@ const curGoalDisplay = document.querySelector('.js-cur-goal');
 const goalProgressDisplay = document.querySelector('.js-goal-progress');
 const extraGoalProgressDisplay = document.querySelector('.js-extra-progress');
 
+let buddyRotateIntervalID = 0;
+let buddySpeedIntervalID = 0;
+
 let timerIsStarted = false;
 
 // To allow the stoppage of intervals that will be started
@@ -851,4 +854,61 @@ function clearGoalDisplay() {
     curGoalDisplay.innerHTML = '';
     goalProgressDisplay.innerHTML = '';
     extraGoalProgressDisplay.innerHTML = '';
+}
+
+
+let distCount = 0;
+
+function rotateCharacterPics(rotateSpeed, direction) {
+    let count = 1;
+    
+    buddyRotateIntervalID = setInterval(() => {
+        if(direction === 'f') {
+            document.querySelector('.js-buddy').src = `icons/buddy-icons/KirbyRWalk${count}.png`;
+        }
+        else {
+            document.querySelector('.js-buddy').src = `icons/buddy-icons/KirbyLWalk${count}.png`;
+        }
+        count++;
+
+        if(count === 11) {
+            count = 1;
+        }
+    }, rotateSpeed);
+}
+
+rotateCharacterPics(300, 'f');
+
+function characterWalk(walkSpeed, direction) {
+
+    buddySpeedIntervalID = setInterval(() => {
+        if(direction === 'f') {
+            distCount += 10;
+        }
+        else {
+            distCount -= 10;
+        }
+
+        document.querySelector('.js-buddy').style.transform = `translateX(${distCount}px)`;
+
+        if(distCount >= 320) {
+            stopBuddyAnimation();
+            rotateCharacterPics(200, 'b');
+            characterWalk(400, 'b');
+        }
+        else if(distCount <= 20) {
+            stopBuddyAnimation();
+            rotateCharacterPics(200, 'f');
+            characterWalk(400, 'f');
+        }
+
+    }, walkSpeed);
+}
+
+characterWalk(600, 'f');
+
+function stopBuddyAnimation() {
+    clearInterval(buddyRotateIntervalID);
+    clearInterval(buddySpeedIntervalID);
+    document.querySelector('.js-buddy').src = "icons/buddy-icons/KirbyR.png";
 }
