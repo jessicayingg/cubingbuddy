@@ -146,6 +146,9 @@ document.body.addEventListener('keydown', (event) => {
         else if(event.key === 'e') {
             getLastScramble();
         }
+        else if(event.key === 'h') {
+            showSpeechBubble();
+        }
     }
 });
 
@@ -877,38 +880,55 @@ function rotateCharacterPics(rotateSpeed, direction) {
     }, rotateSpeed);
 }
 
-rotateCharacterPics(300, 'f');
-
 function characterWalk(walkSpeed, direction) {
 
     buddySpeedIntervalID = setInterval(() => {
         if(direction === 'f') {
-            distCount += 10;
+            distCount += 1;
         }
         else {
-            distCount -= 10;
+            distCount -= 1;
         }
 
         document.querySelector('.js-buddy').style.transform = `translateX(${distCount}px)`;
+        document.querySelector('.js-speech-bubble-container').style.transform = `translateX(${distCount}px)`;
 
         if(distCount >= 320) {
             stopBuddyAnimation();
             rotateCharacterPics(200, 'b');
-            characterWalk(400, 'b');
+            characterWalk(walkSpeed, 'b');
         }
-        else if(distCount <= 20) {
+        else if(distCount <= 1) {
             stopBuddyAnimation();
             rotateCharacterPics(200, 'f');
-            characterWalk(400, 'f');
+            characterWalk(walkSpeed, 'f');
+        }
+
+        if(distCount >= 180) {
+            document.querySelector('.js-speech-bubble').classList.add('speech-bubble-flipped');
+        }
+        else if(distCount < 180) {
+            document.querySelector('.js-speech-bubble').classList.remove('speech-bubble-flipped');
         }
 
     }, walkSpeed);
 }
-
-characterWalk(600, 'f');
 
 function stopBuddyAnimation() {
     clearInterval(buddyRotateIntervalID);
     clearInterval(buddySpeedIntervalID);
     document.querySelector('.js-buddy').src = "icons/buddy-icons/KirbyR.png";
 }
+
+function showSpeechBubble() {
+    let curTimeoutID = 0;
+
+    document.querySelector('.js-speech-bubble-container').classList.remove('hidden');
+
+    setTimeout(() => {
+        document.querySelector('.js-speech-bubble-container').classList.add('hidden');
+    }, 4000);
+}
+
+rotateCharacterPics(300, 'f');
+characterWalk(20, 'f');

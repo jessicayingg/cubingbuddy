@@ -1,4 +1,31 @@
 .buddy-icon {
     height: 50px;
-    margin: 10px;
+    margin: 30px 10px 10px 10px;
+
+    position: relative;
+}
+
+.speech-bubble-container {
+    bottom: 130px;
+    right: 190px;
+    
+    position: absolute;
+    z-index: 30;
+}
+
+.speech-bubble {
+    height: 100px;
+}
+
+.speech-bubble-container p {
+    position: absolute;
+    font-size: 20px;
+    margin-left: 15px;
+
+    bottom: 37px;
+}
+
+.speech-bubble-flipped {
+    transform: scaleX(-1);
+    margin-right: 235px;
 }
