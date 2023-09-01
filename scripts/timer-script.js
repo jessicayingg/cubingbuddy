@@ -51,6 +51,11 @@ const curGoalDisplay = document.querySelector('.js-cur-goal');
 const goalProgressDisplay = document.querySelector('.js-goal-progress');
 const extraGoalProgressDisplay = document.querySelector('.js-extra-progress');
 
+const buddyImage = document.querySelector('.js-buddy');
+const speechBubbleContainer = document.querySelector('.js-speech-bubble-container');
+const speechBubble = document.querySelector('.js-speech-bubble');
+const speechBubbleText = document.querySelector('.js-bubble-text');
+
 let buddyRotateIntervalID = 0;
 let buddySpeedIntervalID = 0;
 
@@ -139,6 +144,7 @@ document.body.addEventListener('keydown', (event) => {
         }
         else if(event.key === 'Enter') {
             manualAddTime();
+            trackGoal();
         }
         else if(event.key === 'r') {
             getNewScramble();
@@ -147,7 +153,7 @@ document.body.addEventListener('keydown', (event) => {
             getLastScramble();
         }
         else if(event.key === 'h') {
-            showSpeechBubble();
+            showSpeechBubble('Yay!');
         }
     }
 });
@@ -309,6 +315,12 @@ setGoalButton.addEventListener('click', (event) => {
 resetGoalButton.addEventListener('click', (event) => {
     resetGoals();
     clearGoalDisplay();
+
+    showSpeechBubble('All goals reset!');
+});
+
+buddyImage.addEventListener('click', (event) => {
+    showSpeechBubble("You're doing great!");
 });
 
 // Starting and stopping timer
@@ -418,6 +430,8 @@ function recordTime(fromTimer) {
     // Finding the fastest single
     if(curTime < bestSingle) {
         bestSingle = curTime;
+
+        showSpeechBubble('New best single!');
     }
 
     // Adding to ao5
@@ -484,6 +498,8 @@ function findAverageOf5() {
     // find best average
     if(curAo5 < bestAo5) {
         bestAo5 = curAo5;
+
+        showSpeechBubble('New best average of 5!');
     }
 }
 
@@ -516,6 +532,8 @@ function findAverageOf12() {
     // find best average
     if(curAo12 < bestAo12) {
         bestAo12 = curAo12;
+
+        showSpeechBubble('New best average of 12!');
     }
 }
 
@@ -713,6 +731,7 @@ function addPbs() {
 }
 
 function setGoal() {
+    let invalidGoal = false;
 
     if(numGoalCover.classList.contains('hidden')) {
         curGoalType = 'num';
@@ -733,15 +752,30 @@ function setGoal() {
 
         numSolvesToComplete = numSetsInput.value * setType;
     }
-    else {
+    else if(restGoalCover.classList.contains('hidden')) {
         curGoalType = 'rest';
         numSolvesToComplete = numRestSolvesInput.value;
         restDuration = restDurationInput.value;
+    }
+    else {
+        invalidGoal = true;
+    }
+
+    if(numSolvesToComplete == 0) {
+        invalidGoal = true;
+        resetGoals();
     }
 
     console.log(curGoalType);
     console.log(numSolvesToComplete);
     console.log(restDuration);
+
+    if(invalidGoal) {
+        showSpeechBubble('Invalid goal :(');
+    }
+    else {
+        showSpeechBubble('Goal set!');
+    }
 }
 
 function resetGoals() {
@@ -783,7 +817,9 @@ function trackGoal() {
         if(curGoalType === 'num') {
             if(numSolvesCompleted == numSolvesToComplete) {
                 console.log('goal completed!');
-    
+
+                showSpeechBubble('Goal completed!');
+
                 resetGoals();
             }
     
@@ -791,10 +827,14 @@ function trackGoal() {
         else if(curGoalType === 'sets') {
             if(numSolvesCompleted % setType === 0) {
                 console.log(numSolvesCompleted/setType + ' sets completed!');
+
+                showSpeechBubble(numSolvesCompleted/setType + '/' + numSolvesToComplete/setType + ' sets completed!');
             }
     
             if(numSolvesCompleted == numSolvesToComplete) {
                 console.log('goal completed!');
+
+                showSpeechBubble('Goal completed!');
     
                 resetGoals();
             }
@@ -809,10 +849,13 @@ function trackGoal() {
                 numSolvesCompleted = 0;
                 restStarted = true;
 
+                showSpeechBubble('Rest starting!');
+
                 setTimeout(() => {
                     screenCover.classList.add('hidden');
                     goalProgressDisplay.innerHTML = 'Starting cycle again... ';
                     restStarted = false;
+                    showSpeechBubble('Rest done!');
                 }, restDuration*1000);
                 
             }
@@ -829,7 +872,7 @@ function displayGoalStats() {
         goalProgressDisplay.innerHTML = numSolvesCompleted + '/' + numSolvesToComplete + ' solves';
     }
     else if(curGoalType === 'sets') {
-        curGoalDisplay.innerHTML = (numSolvesToComplete / setType) + ' sets ' + '(' + numSolvesToComplete + ' solves)';
+        curGoalDisplay.innerHTML = (numSolvesToComplete / setType) + ' sets (' + numSolvesToComplete + ' solves)';
         goalProgressDisplay.innerHTML = numSolvesCompleted + '/' + numSolvesToComplete + ' solves';
 
         if(numSolvesCompleted % setType === 0) {
@@ -867,10 +910,10 @@ function rotateCharacterPics(rotateSpeed, direction) {
     
     buddyRotateIntervalID = setInterval(() => {
         if(direction === 'f') {
-            document.querySelector('.js-buddy').src = `icons/buddy-icons/KirbyRWalk${count}.png`;
+            buddyImage.src = `icons/buddy-icons/KirbyRWalk${count}.png`;
         }
         else {
-            document.querySelector('.js-buddy').src = `icons/buddy-icons/KirbyLWalk${count}.png`;
+            buddyImage.src = `icons/buddy-icons/KirbyLWalk${count}.png`;
         }
         count++;
 
@@ -890,8 +933,8 @@ function characterWalk(walkSpeed, direction) {
             distCount -= 1;
         }
 
-        document.querySelector('.js-buddy').style.transform = `translateX(${distCount}px)`;
-        document.querySelector('.js-speech-bubble-container').style.transform = `translateX(${distCount}px)`;
+        buddyImage.style.transform = `translateX(${distCount}px)`;
+        speechBubbleContainer.style.transform = `translateX(${distCount}px)`;
 
         if(distCount >= 320) {
             stopBuddyAnimation();
@@ -905,10 +948,10 @@ function characterWalk(walkSpeed, direction) {
         }
 
         if(distCount >= 180) {
-            document.querySelector('.js-speech-bubble').classList.add('speech-bubble-flipped');
+            speechBubble.classList.add('speech-bubble-flipped');
         }
         else if(distCount < 180) {
-            document.querySelector('.js-speech-bubble').classList.remove('speech-bubble-flipped');
+            speechBubble.classList.remove('speech-bubble-flipped');
         }
 
     }, walkSpeed);
@@ -917,16 +960,17 @@ function characterWalk(walkSpeed, direction) {
 function stopBuddyAnimation() {
     clearInterval(buddyRotateIntervalID);
     clearInterval(buddySpeedIntervalID);
-    document.querySelector('.js-buddy').src = "icons/buddy-icons/KirbyR.png";
+    buddyImage.src = "icons/buddy-icons/KirbyR.png";
 }
 
-function showSpeechBubble() {
+function showSpeechBubble(strToDisplay) {
     let curTimeoutID = 0;
 
-    document.querySelector('.js-speech-bubble-container').classList.remove('hidden');
+    speechBubbleContainer.classList.remove('hidden');
+    speechBubbleText.innerHTML = strToDisplay;
 
     setTimeout(() => {
-        document.querySelector('.js-speech-bubble-container').classList.add('hidden');
+        speechBubbleContainer.classList.add('hidden');
     }, 4000);
 }
 
