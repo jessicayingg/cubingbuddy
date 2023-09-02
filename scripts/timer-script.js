@@ -108,6 +108,13 @@ let randNumRolled = false;
 let randNumCounter = 0;
 let randNum = 0;
 
+let encMessages = [
+    "You're doing great!",
+    "Awesome session!",
+    "I'm here for you!",
+    "You got this!"
+];
+
 // EVENT LISTENERS
 
 // For general keydowns
@@ -984,10 +991,11 @@ rotateCharacterPics(300, 'f');
 characterWalk(20, 'f');
 
 function displayEncouragingMessage() {
+    let randMessageNum = 0;
 
     if(!randNumRolled) {
 
-        randNum =  parseInt((Math.random()*(20-10+1))) + 10;
+        randNum =  parseInt(Math.random()*(20-10+1)) + 10;
         console.log(randNum);
 
         randNumRolled = true;
@@ -995,7 +1003,9 @@ function displayEncouragingMessage() {
     else {
 
         if(randNumCounter == randNum) {
-            showSpeechBubble("You're doing great!");
+            randMessageNum = parseInt(Math.random()*((encMessages.length-1)-0+1)) + 0;
+            
+            showSpeechBubble(encMessages[randMessageNum]);
 
             randNumCounter = 0;
             randNumRolled = false;
