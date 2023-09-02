@@ -104,6 +104,10 @@ let numSolvesCompleted = 0;
 let goalSet = false;
 let restStarted = false;
 
+let randNumRolled = false;
+let randNumCounter = 0;
+let randNum = 0;
+
 // EVENT LISTENERS
 
 // For general keydowns
@@ -135,6 +139,7 @@ document.body.addEventListener('keydown', (event) => {
                 startStopTimer();
                 recordTime(true);
                 trackGoal();
+                displayEncouragingMessage();
             }
         }
         // Escape resets the timer
@@ -144,7 +149,6 @@ document.body.addEventListener('keydown', (event) => {
         }
         else if(event.key === 'Enter') {
             manualAddTime();
-            trackGoal();
         }
         else if(event.key === 'r') {
             getNewScramble();
@@ -564,6 +568,8 @@ function addTime() {
     // isNaN --> is not a number
     if(!isNaN(inputElement.value) && Number(inputElement.value) != 0) {
         recordTime(false);
+        trackGoal();
+        displayEncouragingMessage();
     }
 
     inputElement.value = '';
@@ -976,3 +982,30 @@ function showSpeechBubble(strToDisplay) {
 
 rotateCharacterPics(300, 'f');
 characterWalk(20, 'f');
+
+function displayEncouragingMessage() {
+
+    if(!randNumRolled) {
+
+        randNum =  parseInt((Math.random()*(20-10+1))) + 10;
+        console.log(randNum);
+
+        randNumRolled = true;
+    }
+    else {
+
+        if(randNumCounter == randNum) {
+            showSpeechBubble("You're doing great!");
+
+            randNumCounter = 0;
+            randNumRolled = false;
+        }
+        else {
+            randNumCounter++;
+        }
+    }
+
+    console.log(randNumCounter);
+}
+
+displayEncouragingMessage();
