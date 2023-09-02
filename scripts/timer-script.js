@@ -1,13 +1,16 @@
 // VARIABLES
 
-// For HTML elmeents that will be altered
+// CONSTANTS FOR HTML ELEMENTS
+// Displays
 const stopwatchDisplay = document.querySelector('.js-display');
 const timesDisplay = document.querySelector('.js-times');
 const pbDisplay = document.querySelector('.js-pbs');
 
+// Manual time input
 const inputElement = document.querySelector('.js-user-input');
 const enterButton = document.querySelector('.js-manual-result');
 
+// For the scramble/goals section
 const dropDownElement = document.querySelector('.js-dropdown');
 const curPageButton = document.querySelector('.js-selected-button');
 const otherPageButton = document.querySelector('.js-other-button');
@@ -15,18 +18,6 @@ const scramblePage = document.querySelector('.js-scramble-container');
 const goalsPage = document.querySelector('.js-goals');
 const goalsPage1 = document.querySelector('.js-goals-first-page');
 const goalsPage2 = document.querySelector('.js-goals-second-page');
-
-const logoButton = document.querySelector('.js-logo');
-
-const scrambleElement = document.querySelector('.js-scramble');
-const nextButton = document.querySelector('.js-next');
-const prevButton = document.querySelector('.js-prev');
-const prevIconElement = document.querySelector('.js-prev-icon');
-
-const sidebar = document.querySelector('.js-sidebar');
-
-const screenCover = document.querySelector('.js-cover');
-const screenAlert = document.querySelector('.js-alert');
 
 const ao5SetButton = document.querySelector('.js-ao5');
 const ao12SetButton = document.querySelector('.js-ao12');
@@ -51,32 +42,50 @@ const curGoalDisplay = document.querySelector('.js-cur-goal');
 const goalProgressDisplay = document.querySelector('.js-goal-progress');
 const extraGoalProgressDisplay = document.querySelector('.js-extra-progress');
 
+// Scramble box
+const scrambleElement = document.querySelector('.js-scramble');
+const nextButton = document.querySelector('.js-next');
+const prevButton = document.querySelector('.js-prev');
+const prevIconElement = document.querySelector('.js-prev-icon');
+
+// Logo and sidebar
+const logoButton = document.querySelector('.js-logo');
+const sidebar = document.querySelector('.js-sidebar');
+
+// Full screen gray out
+const screenCover = document.querySelector('.js-cover');
+const screenAlert = document.querySelector('.js-alert');
+
+// Buddy + speech bubble
 const buddyImage = document.querySelector('.js-buddy');
 const speechBubbleContainer = document.querySelector('.js-speech-bubble-container');
 const speechBubble = document.querySelector('.js-speech-bubble');
 const speechBubbleText = document.querySelector('.js-bubble-text');
 
+
+
+// VARIABLES
+
+// Interval IDs
+let timerIntervalID = 0;
+let displayIntervalID = 0;
 let buddyRotateIntervalID = 0;
 let buddySpeedIntervalID = 0;
 
+// Timer started
 let timerIsStarted = false;
-
-// To allow the stoppage of intervals that will be started
-let timerIntervalID = 0;
-let displayIntervalID = 0;
-
-// Current exact times that are used to calculate the time on the stopwatch
-let timerStartTime;
-let curEndTime;
 
 // For space bar press
 let startTime;
 let endTime;
 let elapsedTime = 0;
 let spacePressed = false;
-
 // Turning colour from red to green - part of space bar press
 let displayReadyCounter = 0;
+
+// Current exact times that are used to calculate the time on the stopwatch
+let timerStartTime;
+let curEndTime;
 
 // For storing times
 let timesList = [];
@@ -96,6 +105,7 @@ let lastScramble = '';
 // TRYING FOR SIDEBAR
 let isSidebarOpen = false;
 
+// For goals
 let curGoalType = '';
 let numSolvesToComplete = 0;
 let setType = 0;
@@ -104,10 +114,12 @@ let numSolvesCompleted = 0;
 let goalSet = false;
 let restStarted = false;
 
+// Random number for displaying encouraging messages
 let randNumRolled = false;
 let randNumCounter = 0;
 let randNum = 0;
 
+// List of encouraging messages
 let encMessages = [
     "You're doing great!",
     "Awesome session!",
@@ -149,22 +161,21 @@ document.body.addEventListener('keydown', (event) => {
                 displayEncouragingMessage();
             }
         }
-        // Escape resets the timer
+        // Escape
         else if(event.key === 'Escape') {
-            // Reset timer
             resetTimer();
         }
+        // Enter
         else if(event.key === 'Enter') {
             manualAddTime();
         }
+        // R key
         else if(event.key === 'r') {
             getNewScramble();
         }
+        // E key
         else if(event.key === 'e') {
             getLastScramble();
-        }
-        else if(event.key === 'h') {
-            showSpeechBubble('Yay!');
         }
     }
 });
@@ -206,13 +217,12 @@ document.body.addEventListener('click', (event) => {
 });
 */
 
-
-
-// For the enter button
+// Enter button
 enterButton.addEventListener('click', (event) => {
     manualAddTime();
 });
 
+// Logo
 logoButton.addEventListener('click', (event) => {
     if(!isSidebarOpen) {
         openSideBar();
@@ -220,14 +230,17 @@ logoButton.addEventListener('click', (event) => {
     }
 });
 
+// Next button for scramble
 nextButton.addEventListener('click', (event) => {
     getNewScramble();
 });
 
+// Back button for scramble
 prevButton.addEventListener('click', (event) => {
     getLastScramble();
 });
 
+// Draw scramble page
 curPageButton.addEventListener('click', (event) => {
     otherPageButton.classList.add('other-page-button');
     otherPageButton.classList.remove('page-selected-button');
@@ -241,6 +254,7 @@ curPageButton.addEventListener('click', (event) => {
     goalsPage2.classList.add('hidden');
 });
 
+// Set goals page
 otherPageButton.addEventListener('click', (event) => {
     curPageButton.classList.add('other-page-button');
     curPageButton.classList.remove('page-selected-button');
@@ -256,42 +270,49 @@ otherPageButton.addEventListener('click', (event) => {
     secondPageButton.classList.add('not-cur-page');
 });
 
+// Set for average of 5 button
 ao5SetButton.addEventListener('click', (event) => {
     ao5SetButton.classList.add('sets-options-chosen-button');
     ao12SetButton.classList.remove('sets-options-chosen-button');
     ao100SetButton.classList.remove('sets-options-chosen-button');
 });
 
+// Set for average of 12 button
 ao12SetButton.addEventListener('click', (event) => {
     ao12SetButton.classList.add('sets-options-chosen-button');
     ao5SetButton.classList.remove('sets-options-chosen-button');
     ao100SetButton.classList.remove('sets-options-chosen-button');
 });
 
+// Set for average of 100 button
 ao100SetButton.addEventListener('click', (event) => {
     ao100SetButton.classList.add('sets-options-chosen-button');
     ao5SetButton.classList.remove('sets-options-chosen-button');
     ao12SetButton.classList.remove('sets-options-chosen-button');
 });
 
+// Grayed out num solves container
 numGoalCover.addEventListener('click', (event) => {
     numGoalCover.classList.add('hidden');
     setsGoalCover.classList.remove('hidden');
     restGoalCover.classList.remove('hidden');
 });
 
+// Grayed out sets container
 setsGoalCover.addEventListener('click', (event) => {
     setsGoalCover.classList.add('hidden');
     numGoalCover.classList.remove('hidden');
     restGoalCover.classList.remove('hidden');
 });
 
+// Grayed out rest container
 restGoalCover.addEventListener('click', (event) => {
     restGoalCover.classList.add('hidden');
     numGoalCover.classList.remove('hidden');
     setsGoalCover.classList.remove('hidden');
 });
 
+// Grayed out full screen
 screenCover.addEventListener('click', (event) => {
     if(isSidebarOpen) {
         closeSideBar();
@@ -299,16 +320,16 @@ screenCover.addEventListener('click', (event) => {
     }
 });
 
+// Set goals first page (goal set options)
 firstPageButton.addEventListener('click', (event) => {
     goalsPage1.classList.remove('hidden');
     goalsPage2.classList.add('hidden');
 
     firstPageButton.classList.remove('not-cur-page');
     secondPageButton.classList.add('not-cur-page');
-
-
 });
 
+// Set goals second page (goal tracker)
 secondPageButton.addEventListener('click', (event) => {
     goalsPage2.classList.remove('hidden');
     goalsPage1.classList.add('hidden');
@@ -317,12 +338,14 @@ secondPageButton.addEventListener('click', (event) => {
     firstPageButton.classList.add('not-cur-page');
 });
 
+// Set goal button 
 setGoalButton.addEventListener('click', (event) => {
     clearGoalDisplay();
     resetGoalStats();
     setGoal();
 });
 
+// Reset goal butotn
 resetGoalButton.addEventListener('click', (event) => {
     resetGoals();
     clearGoalDisplay();
@@ -330,9 +353,14 @@ resetGoalButton.addEventListener('click', (event) => {
     showSpeechBubble('All goals reset!');
 });
 
+// The walking buddy
 buddyImage.addEventListener('click', (event) => {
-    showSpeechBubble("You're doing great!");
+    showSpeechBubble("I'm your cubing buddy!");
 });
+
+
+
+
 
 // Starting and stopping timer
 function startStopTimer() {
