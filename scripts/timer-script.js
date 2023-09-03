@@ -127,6 +127,8 @@ let encMessages = [
     "You got this!"
 ];
 
+
+
 // EVENT LISTENERS
 
 // For general keydowns
@@ -157,7 +159,11 @@ document.body.addEventListener('keydown', (event) => {
                 // Stop the timer and record the time
                 startStopTimer();
                 recordTime(true);
+                
+                // Track goal
                 trackGoal();
+
+                // Track display of encouraging message
                 displayEncouragingMessage();
             }
         }
@@ -314,6 +320,7 @@ restGoalCover.addEventListener('click', (event) => {
 
 // Grayed out full screen
 screenCover.addEventListener('click', (event) => {
+    // Only for sidebar
     if(isSidebarOpen) {
         closeSideBar();
         isSidebarOpen = false;
@@ -464,6 +471,8 @@ function recordTime(fromTimer) {
         curTime = Number(inputElement.value);
     }
 
+    curTime = trunTo2(curTime).toFixed(2);
+
     timesList.push(curTime);
 
     // Finding the fastest single
@@ -495,27 +504,44 @@ function recordTime(fromTimer) {
         curAo12List.push(curTime);
     }
 
+    /*
     console.log(timesList);
     console.log('Best single: ' + bestSingle);
     console.log(curAo5List);
+    */
 
+    // Averages
     findAverageOf5();
     findAverageOf12();
-    //addTimes();
+
+    // Times and pbs
     addTime();
     addPbs();
 
+    // Generate new scramble
     getNewScramble();
+}
+
+function trunTo2(num) {
+    let numStr = num + '';
+
+    numStr = numStr.substring(0, numStr.indexOf('.')+3);
+
+    return parseFloat(numStr);
 }
 
 // To find average of 5
 function findAverageOf5() {
+    // Local variables
     let total = 0;
     let highest = curAo5List[0];
     let lowest = curAo5List[0];
     let cur = 0;
     
+    // Only find the average if there are more than 5 solves completed
     if(curAo5List.length >= 5) {
+        
+        // Find current average
         for(let i = 0; i < 5; i++) {
             cur = curAo5List[i];
 
@@ -527,14 +553,13 @@ function findAverageOf5() {
             else if(cur < lowest) {
                 lowest = cur;
             }
-
         }
 
         total -= (highest + lowest);
         curAo5 = (total/3).toFixed(2);
     }
 
-    // find best average
+    // Find best average
     if(curAo5 < bestAo5) {
         bestAo5 = curAo5;
 
@@ -544,12 +569,16 @@ function findAverageOf5() {
 
 // To find average of 12
 function findAverageOf12() {
+    // Local variables
     let total = 0;
     let highest = curAo12List[0];
     let lowest = curAo12List[0];
     let cur = 0;
     
+    // Only find the average if there are more htan 12 solves completed
     if(curAo12List.length >= 12) {
+        
+        // Find current average
         for(let i = 0; i < 12; i++) {
             cur = curAo12List[i];
 
@@ -561,14 +590,13 @@ function findAverageOf12() {
             else if(cur < lowest) {
                 lowest = cur;
             }
-
         }
 
         total -= (highest + lowest);
         curAo12 = (total/10).toFixed(2);
     }
 
-    // find best average
+    // Find best average
     if(curAo12 < bestAo12) {
         bestAo12 = curAo12;
 
@@ -583,14 +611,14 @@ function addTime() {
     if(curAo5List.length < 5) {
         HTMLToAdd = `
         <p class="num">${timesList.length}</p>
-        <p class="time">${timesList[timesList.length-1].toFixed(3)}</p>
+        <p class="time">${timesList[timesList.length-1]}</p>
         <p class="average">-</p>
     `;
     }
     else {
         HTMLToAdd = `
         <p class="num">${timesList.length}</p>
-        <p class="time">${timesList[timesList.length-1].toFixed(3)}</p>
+        <p class="time">${timesList[timesList.length-1]}</p>
         <p class="average">${curAo5}</p>
     `;
     }
@@ -759,7 +787,7 @@ function addPbs() {
     }
     else {
         HTMLToAdd2 += `
-        <p class="pb-text">${bestSingle.toFixed(2)}</p>
+        <p class="pb-text">${bestSingle}</p>
         <p class="pb-text">Single</p>
         <p class="pb-text">-</p>
         <p class="pb-text">Ao5</p>
