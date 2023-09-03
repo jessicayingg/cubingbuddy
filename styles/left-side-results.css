@@ -1,3 +1,8 @@
+/*
+This is the css for the left container that holds all the times + pbs 
+*/
+
+/* Container holding the Logo, "Time", "Ao5" titles*/
 .titles-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -6,6 +11,7 @@
     
 }
 
+/* Logo */
 .logo {
     height: 70px;
     width: 70px;
@@ -15,16 +21,19 @@
     margin-left: -12px;
 }
 
+/* The "Time" and "Ao5" titles */
 .title {
     margin-left: 15px;
 }
 
+/* Holds times container*/
 .big-times-container {
     height: 350px;
 
     box-shadow: inset 0px -5px 5px 0 rgb(0, 0, 0, 0.1), inset 0px 5px 5px 0 rgb(0, 0, 0, 0.1);
 }
 
+/* Contains all the times (nth solve, the time, and cur ao5) */
 .times-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -46,28 +55,34 @@
 
 }
 
+/* Scrollbar for the times container */
 .times-container::-webkit-scrollbar {
     background-color: transparent;
 }
 
+/* The time of a solve */
 .time {
     color:rgb(84, 73, 86);
 }
 
+/* The average of 5 at one certain solve */
 .average {
     margin-left: 15px;
     color:rgb(84, 73, 86);
 }
 
+/* Container holding the personal bests */
 .personal-bests-container {
     font-size: 22px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 5fr 4fr;
 
-    margin-left: 12px;
+    margin-left: 40px;
+    margin-right: 40px;
 
 }
 
+/* Container holding the "PBs" and "Type" titles*/
 .pb-titles-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -83,11 +98,21 @@
     
 }
 
+/* The "PBs" and "Type" titles */
 .pb-title {
     font-size: 20px;
     text-align: center;
 }
 
+/* The time and type for each PB */
 .pb-text {
     font-size: 16px;
+    margin-top: 5px;
+
+    /*
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color:rgb(71, 38, 53);
+    */
+
 }

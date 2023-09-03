@@ -1,3 +1,8 @@
+/*
+This is for general CSS
+*/
+
+/* The body */
 body {
     padding: 30px;
     font-family: 'Roboto', sans-serif, Arial;
@@ -5,10 +10,12 @@ body {
     color: rgb(35, 35, 35);
 }
 
+/* All buttons */
 button {
     cursor: pointer;
 }
 
+/* The dark gray that covers the screen */
 .screen-cover {
     position: fixed;
     left: 0;
@@ -20,6 +27,7 @@ button {
     z-index: 100;
 }
 
+/* For elements that are not meant to be seen */
 .hidden {
     display: none;
 }
