@@ -92,12 +92,15 @@ let timesList = [];
 let bestSingle = Number.MAX_VALUE;
 let bestAo5 = Number.MAX_VALUE;
 let bestAo12 = Number.MAX_VALUE;
+let bestAo100 = Number.MAX_VALUE;
 
 // For averages
 let curAo5List = [];
 let curAo5;
 let curAo12List = [];
 let curAo12;
+let curAo100List = [];
+let curAo100;
 
 // For scramble
 let lastScramble = '';
@@ -182,6 +185,9 @@ document.body.addEventListener('keydown', (event) => {
         // E key
         else if(event.key === 'e') {
             getLastScramble();
+        }
+        else if(event.key === 'j') {
+            resetAllTimes();
         }
     }
 });
@@ -471,7 +477,7 @@ function recordTime(fromTimer) {
         curTime = Number(inputElement.value);
     }
 
-    curTime = trunTo2(curTime).toFixed(2);
+    curTime = parseFloat(trunTo2(curTime));
 
     timesList.push(curTime);
 
@@ -495,13 +501,24 @@ function recordTime(fromTimer) {
 
     // Adding to ao12
     if(curAo12List.length < 12) {
-        // Just adding if less than 5 solves recorded
+        // Just adding if less than 12 solves recorded
         curAo12List.push(curTime);
     }
     else {
         // Delete first solve, add on the new one
         curAo12List.splice(0, 1);
         curAo12List.push(curTime);
+    }
+
+    // Adding to ao100
+    if(curAo100List.length < 100) {
+        // Just adding if less than 100 solves recorded
+        curAo100List.push(curTime);
+    }
+    else {
+        // Delete first solve, add on the new one
+        curAo100List.splice(0, 1);
+        curAo100List.push(curTime);
     }
 
     /*
@@ -513,6 +530,7 @@ function recordTime(fromTimer) {
     // Averages
     findAverageOf5();
     findAverageOf12();
+    findAverageOf100();
 
     // Times and pbs
     addTime();
@@ -604,6 +622,43 @@ function findAverageOf12() {
     }
 }
 
+// To find average of 100
+function findAverageOf100() {
+    // Local variables
+    let total = 0;
+    let highest = curAo100List[0];
+    let lowest = curAo100List[0];
+    let cur = 0;
+    
+    // Only find the average if there are more htan 12 solves completed
+    if(curAo100List.length >= 100) {
+        
+        // Find current average
+        for(let i = 0; i < 100; i++) {
+            cur = curAo100List[i];
+
+            total += cur;
+
+            if(cur > highest) {
+                highest = cur;
+            }
+            else if(cur < lowest) {
+                lowest = cur;
+            }
+        }
+
+        total -= (highest + lowest);
+        curAo100 = (total/98).toFixed(2);
+    }
+
+    // Find best average
+    if(curAo100 < bestAo100) {
+        bestAo100 = curAo100;
+
+        showSpeechBubble('New best average of 100!');
+    }
+}
+
 
 function addTime() {
     let HTMLToAdd = '';
@@ -611,14 +666,14 @@ function addTime() {
     if(curAo5List.length < 5) {
         HTMLToAdd = `
         <p class="num">${timesList.length}</p>
-        <p class="time">${timesList[timesList.length-1]}</p>
+        <p class="time">${timesList[timesList.length-1].toFixed(2)}</p>
         <p class="average">-</p>
     `;
     }
     else {
         HTMLToAdd = `
         <p class="num">${timesList.length}</p>
-        <p class="time">${timesList[timesList.length-1]}</p>
+        <p class="time">${timesList[timesList.length-1].toFixed(2)}</p>
         <p class="average">${curAo5}</p>
     `;
     }
@@ -765,7 +820,7 @@ function getLastScramble() {
 function addPbs() {
     let HTMLToAdd2 = '';
 
-    if(curAo12List.length >= 12) {
+    if(curAo100List.length >= 100) {
         HTMLToAdd2 += `
         <p class="pb-text">${bestSingle}</p>
         <p class="pb-text">Single</p>
@@ -773,6 +828,20 @@ function addPbs() {
         <p class="pb-text">Ao5</p>
         <p class="pb-text">${bestAo12}</p>
         <p class="pb-text">Ao12</p>
+        <p class="pb-text">${bestAo100}</p>
+        <p class="pb-text">Ao100</p>
+    `;
+    }
+    else if(curAo12List.length >= 12) {
+        HTMLToAdd2 += `
+        <p class="pb-text">${bestSingle}</p>
+        <p class="pb-text">Single</p>
+        <p class="pb-text">${bestAo5}</p>
+        <p class="pb-text">Ao5</p>
+        <p class="pb-text">${bestAo12}</p>
+        <p class="pb-text">Ao12</p>
+        <p class="pb-text">-</p>
+        <p class="pb-text">Ao100</p>
     `;
     }
     else if(curAo5List.length >= 5) {
@@ -783,6 +852,8 @@ function addPbs() {
         <p class="pb-text">Ao5</p>
         <p class="pb-text">-</p>
         <p class="pb-text">Ao12</p>
+        <p class="pb-text">-</p>
+        <p class="pb-text">Ao100</p>
     `;
     }
     else {
@@ -793,6 +864,8 @@ function addPbs() {
         <p class="pb-text">Ao5</p>
         <p class="pb-text">-</p>
         <p class="pb-text">Ao12</p>
+        <p class="pb-text">-</p>
+        <p class="pb-text">Ao100</p>
     `;
     }
 
@@ -1075,3 +1148,23 @@ function displayEncouragingMessage() {
 }
 
 displayEncouragingMessage();
+
+function resetAllTimes() {
+    timesList = [];
+    curAo5List = [];
+    curAo12List = [];
+    curAo100List = [];
+
+    bestSingle = Number.MAX_VALUE;
+    bestAo5 = Number.MAX_VALUE;
+    bestAo12 = Number.MAX_VALUE;
+    bestAo100 = Number.MAX_VALUE;
+
+    curAo5 = Number.MAX_VALUE;
+    curAo12 = Number.MAX_VALUE;
+    curAo100 = Number.MAX_VALUE;
+
+    timesDisplay.innerHTML = '';
+    pbDisplay.innerHTML = '';
+    stopwatchDisplay.innerHTML = '0.000';
+}

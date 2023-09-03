@@ -59,7 +59,10 @@
                         </div>
 
                         <div class="js-scramble-container scramble-pic-container">
-                            <select class="js-dropdown cube-type-dropdown" onchange="getNewScramble()">
+                            <select class="js-dropdown cube-type-dropdown" onchange="
+                                getNewScramble();
+                                resetAllTimes();
+                            ">
                                 <option>3x3</option>
                                 <option>Pyraminx</option>
                                 <option>Skewb</option>
