@@ -805,7 +805,27 @@ function getNewScramble() {
         });
     }
     else if(dropDownElement.value === '4x4') {
-        cstimerScrambler.getScramble(['444'], function(scramble) {
+        cstimerScrambler.getScramble(['444wca'], function(scramble) {
+            scrambleElement.innerHTML = scramble;
+        });
+    }
+    else if(dropDownElement.value === '5x5') {
+        cstimerScrambler.getScramble(['555wca', 60], function(scramble) {
+            scrambleElement.innerHTML = scramble;
+        });
+    }
+    else if(dropDownElement.value === 'Square-1') {
+        cstimerScrambler.getScramble(['sqrs'], function(scramble) {
+            scrambleElement.innerHTML = scramble;
+        });
+    }
+    else if(dropDownElement.value === 'Clock') {
+        cstimerScrambler.getScramble(['clkwca'], function(scramble) {
+            scrambleElement.innerHTML = scramble;
+        });
+    }
+    else if(dropDownElement.value === 'Megaminx') {
+        cstimerScrambler.getScramble(['mgmp', 77], function(scramble) {
             scrambleElement.innerHTML = scramble;
         });
     }
