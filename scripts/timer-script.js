@@ -455,8 +455,8 @@ function readyCounter() {
     }, 10);
 }
 
+// Resets the display and any active intervals
 function resetReadyness() {
-    // Resets the display and any active intervals
     spacePressed = false;
     displayReadyCounter = 0;
     stopwatchDisplay.classList.remove('not-ready-display');
@@ -659,10 +659,13 @@ function findAverageOf100() {
     }
 }
 
-
+// Add time to the times list display
+// Things to add: nth solve   solve time      current average
 function addTime() {
+    
     let HTMLToAdd = '';
 
+    // If there aren't enough solves for a current average of 5
     if(curAo5List.length < 5) {
         HTMLToAdd = `
         <p class="num">${timesList.length}</p>
@@ -670,6 +673,7 @@ function addTime() {
         <p class="average">-</p>
     `;
     }
+    // With current average of 5
     else {
         HTMLToAdd = `
         <p class="num">${timesList.length}</p>
@@ -679,9 +683,9 @@ function addTime() {
     }
  
      timesDisplay.innerHTML = HTMLToAdd + timesDisplay.innerHTML;
-
  }
 
+ // For adding a new time in manually
  function manualAddTime() {
     // isNaN --> is not a number
     if(!isNaN(inputElement.value) && Number(inputElement.value) != 0) {
@@ -773,10 +777,13 @@ cstimerScrambler.getScramble(['333'], function(scramble) {
 // 555bld  5x5x5 random move scramble with random orientation, WCA Notation
 // r3ni    multiple 3x3x3 random state scramble with random orientation, use length to indicate number of cubes.
 
+// Gets the next scramble
 function getNewScramble() {
     
+    // Save the last scramble just in case the user wants to go back
     lastScramble = scrambleElement.innerHTML;
 
+    // Get different scrambles based on what the drop down element is selected on
     if(dropDownElement.value === '3x3') {
         cstimerScrambler.getScramble(['333'], function(scramble) {
             scrambleElement.innerHTML = scramble;
@@ -806,9 +813,11 @@ function getNewScramble() {
         scrambleElement.innerHTML = '-';
     }
 
+    // Show that there is a previous scramble to go back to
     prevIconElement.classList.remove('no-prev-scramble');
 }
 
+// Gets the previous scramble
 function getLastScramble() {
     if(lastScramble != '') {
         scrambleElement.innerHTML = lastScramble;
