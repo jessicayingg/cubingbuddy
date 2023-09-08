@@ -910,10 +910,12 @@ function addPbs() {
 function setGoal() {
     let invalidGoal = false;
 
+    // Num goal selected
     if(numGoalCover.classList.contains('hidden')) {
         curGoalType = 'num';
         numSolvesToComplete = numSolvesInput.value;
     }
+    // Sets goal selected
     else if(setsGoalCover.classList.contains('hidden')) {
         curGoalType = 'sets';
         
@@ -929,24 +931,30 @@ function setGoal() {
 
         numSolvesToComplete = numSetsInput.value * setType;
     }
+    // Rest goal selected
     else if(restGoalCover.classList.contains('hidden')) {
         curGoalType = 'rest';
         numSolvesToComplete = numRestSolvesInput.value;
         restDuration = restDurationInput.value;
     }
+    // Nothing selected
     else {
         invalidGoal = true;
     }
 
+    // If there are 0 solves (no number was put in the input)
     if(numSolvesToComplete == 0) {
         invalidGoal = true;
         resetGoals();
     }
 
+    /*
     console.log(curGoalType);
     console.log(numSolvesToComplete);
     console.log(restDuration);
+    */
 
+    // Buddy  messages
     if(invalidGoal) {
         showSpeechBubble('Invalid goal :(');
     }
@@ -955,6 +963,7 @@ function setGoal() {
     }
 }
 
+// This resets all goal-related displays/variables
 function resetGoals() {
     curGoalType = '';
     numSolvesToComplete = 0;
@@ -976,6 +985,7 @@ function resetGoals() {
     ao100SetButton.classList.remove('sets-options-chosen-button');
 }
 
+// This resets just the goal-related variables
 function resetGoalStats() {
     curGoalType = '';
     numSolvesToComplete = 0;
@@ -984,6 +994,7 @@ function resetGoalStats() {
     setType = 0;
 }
 
+// This function deals with tracking goal progress
 function trackGoal() {
     
     if(curGoalType != '') {
@@ -991,6 +1002,7 @@ function trackGoal() {
 
         displayGoalStats();
 
+        // Num goal
         if(curGoalType === 'num') {
             if(numSolvesCompleted == numSolvesToComplete) {
                 console.log('goal completed!');
@@ -1001,13 +1013,16 @@ function trackGoal() {
             }
     
         }
+        // Sets goal
         else if(curGoalType === 'sets') {
+            // After a completed set
             if(numSolvesCompleted % setType === 0) {
                 console.log(numSolvesCompleted/setType + ' sets completed!');
 
                 showSpeechBubble(numSolvesCompleted/setType + '/' + numSolvesToComplete/setType + ' sets completed!');
             }
     
+            // Full goal completed
             if(numSolvesCompleted == numSolvesToComplete) {
                 console.log('goal completed!');
 
@@ -1016,6 +1031,7 @@ function trackGoal() {
                 resetGoals();
             }
         }
+        // Rest goal
         else if(curGoalType === 'rest') {
             if(numSolvesCompleted == numSolvesToComplete) {
                 console.log('rest');
@@ -1028,6 +1044,7 @@ function trackGoal() {
 
                 showSpeechBubble('Rest starting!');
 
+                // Start again after rest is finished
                 setTimeout(() => {
                     screenCover.classList.add('hidden');
                     goalProgressDisplay.innerHTML = 'Starting cycle again... ';
@@ -1042,16 +1059,20 @@ function trackGoal() {
 
 }
 
+// This displays the goal progress in the second page of the goals tab
 function displayGoalStats() {
 
+    // Num goal
     if(curGoalType === 'num') {
         curGoalDisplay.innerHTML = numSolvesToComplete + ' solves';
         goalProgressDisplay.innerHTML = numSolvesCompleted + '/' + numSolvesToComplete + ' solves';
     }
+    // Sets goal
     else if(curGoalType === 'sets') {
         curGoalDisplay.innerHTML = (numSolvesToComplete / setType) + ' sets (' + numSolvesToComplete + ' solves)';
         goalProgressDisplay.innerHTML = numSolvesCompleted + '/' + numSolvesToComplete + ' solves';
 
+        // Show average of the set
         if(numSolvesCompleted % setType === 0) {
             if(setType == 5) {
                 extraGoalProgressDisplay.innerHTML = 'Set #' + (numSolvesCompleted/setType) + ' average: ' + curAo5;
@@ -1060,11 +1081,12 @@ function displayGoalStats() {
                 extraGoalProgressDisplay.innerHTML = 'Set #' + (numSolvesCompleted/setType) + ' average: ' + curAo12;
             }
             else if(setType == 100) {
-                extraGoalProgressDisplay.innerHTML = 'Set #' + (numSolvesCompleted/setType) + ' average: ' + 'hi';
+                extraGoalProgressDisplay.innerHTML = 'Set #' + (numSolvesCompleted/setType) + ' average: ' + curAo100;
             }
         }
     
     }
+    // Rest goal
     else if(curGoalType === 'rest') {
         curGoalDisplay.innerHTML = numSolvesToComplete + ' solves before ' + restDuration + 's rest';
         goalProgressDisplay.innerHTML = numSolvesCompleted + '/' + numSolvesToComplete + ' solves';
@@ -1073,6 +1095,7 @@ function displayGoalStats() {
 
 }
 
+// Clears all the goal-related displays
 function clearGoalDisplay() {
     curGoalDisplay.innerHTML = '';
     goalProgressDisplay.innerHTML = '';
@@ -1082,48 +1105,61 @@ function clearGoalDisplay() {
 
 let distCount = 0;
 
+// For changing images of the buddy as it walks
 function rotateCharacterPics(rotateSpeed, direction) {
     let count = 1;
     
+    // Displays buddy image 
     buddyRotateIntervalID = setInterval(() => {
+        // Forward
         if(direction === 'f') {
             buddyImage.src = `icons/buddy-icons/KirbyRWalk${count}.png`;
         }
+        // Backward
         else {
             buddyImage.src = `icons/buddy-icons/KirbyLWalk${count}.png`;
         }
         count++;
 
+        // Reset back to 1
         if(count === 11) {
             count = 1;
         }
     }, rotateSpeed);
 }
 
+// For moving the character's horizontal position as it walks
 function characterWalk(walkSpeed, direction) {
 
     buddySpeedIntervalID = setInterval(() => {
+        // Forward
         if(direction === 'f') {
             distCount += 1;
         }
+        // Backward
         else {
             distCount -= 1;
         }
 
+        // Moving both the buddy image and the speech bubble
         buddyImage.style.transform = `translateX(${distCount}px)`;
         speechBubbleContainer.style.transform = `translateX(${distCount}px)`;
 
+        // Making backward
         if(distCount >= 320) {
             stopBuddyAnimation();
             rotateCharacterPics(200, 'b');
             characterWalk(walkSpeed, 'b');
         }
+        // Making forward 
         else if(distCount <= 1) {
             stopBuddyAnimation();
             rotateCharacterPics(200, 'f');
             characterWalk(walkSpeed, 'f');
         }
 
+        // Speech bubble has to flip directions because it sticks out
+        // Prevents it from going off the page
         if(distCount >= 180) {
             speechBubble.classList.add('speech-bubble-flipped');
         }
@@ -1134,12 +1170,15 @@ function characterWalk(walkSpeed, direction) {
     }, walkSpeed);
 }
 
+// This resets all animations for the buddy
 function stopBuddyAnimation() {
     clearInterval(buddyRotateIntervalID);
     clearInterval(buddySpeedIntervalID);
     buddyImage.src = "icons/buddy-icons/KirbyR.png";
 }
 
+// This shows the speech bubble and displays a certain string
+// Parameters: String
 function showSpeechBubble(strToDisplay) {
     let curTimeoutID = 0;
 
@@ -1154,19 +1193,26 @@ function showSpeechBubble(strToDisplay) {
 rotateCharacterPics(300, 'f');
 characterWalk(20, 'f');
 
+// This displays a random encouraing message in the speech bubble at a random interval
 function displayEncouragingMessage() {
     let randMessageNum = 0;
 
+    // If there isn't a random number chosen yet
     if(!randNumRolled) {
 
+        // Find a random number between 10 and 20
+        // That is the number of solves needed to be completed before a message is displayed
         randNum =  parseInt(Math.random()*(20-10+1)) + 10;
-        console.log(randNum);
+        //console.log(randNum);
 
         randNumRolled = true;
     }
+    // If a random number has been set
     else {
 
+        // If that number of solves has been reached
         if(randNumCounter == randNum) {
+            // Generate random number to get a random encouraging message
             randMessageNum = parseInt(Math.random()*((encMessages.length-1)-0+1)) + 0;
             
             showSpeechBubble(encMessages[randMessageNum]);
@@ -1174,16 +1220,17 @@ function displayEncouragingMessage() {
             randNumCounter = 0;
             randNumRolled = false;
         }
+        // Keep counting towards the random number
         else {
             randNumCounter++;
         }
     }
 
-    console.log(randNumCounter);
 }
 
 displayEncouragingMessage();
 
+// This resets all the times recorded as well as all personal bests
 function resetAllTimes() {
     timesList = [];
     curAo5List = [];
