@@ -846,9 +846,11 @@ function getLastScramble() {
     }
 }
 
+// Displays Pbs
 function addPbs() {
     let HTMLToAdd2 = '';
 
+    // If there is 100+ solves
     if(curAo100List.length >= 100) {
         HTMLToAdd2 += `
         <p class="pb-text">${bestSingle}</p>
@@ -861,6 +863,7 @@ function addPbs() {
         <p class="pb-text">Ao100</p>
     `;
     }
+    // If there is 12+ solves
     else if(curAo12List.length >= 12) {
         HTMLToAdd2 += `
         <p class="pb-text">${bestSingle}</p>
@@ -873,6 +876,7 @@ function addPbs() {
         <p class="pb-text">Ao100</p>
     `;
     }
+    // If there is 5+ solves
     else if(curAo5List.length >= 5) {
         HTMLToAdd2 += `
         <p class="pb-text">${bestSingle}</p>
@@ -885,6 +889,7 @@ function addPbs() {
         <p class="pb-text">Ao100</p>
     `;
     }
+    // Less than 5 solves
     else {
         HTMLToAdd2 += `
         <p class="pb-text">${bestSingle}</p>
@@ -901,6 +906,7 @@ function addPbs() {
     pbDisplay.innerHTML = HTMLToAdd2;
 }
 
+// This activates after pressing the set goal button and sets the goal selected
 function setGoal() {
     let invalidGoal = false;
 
