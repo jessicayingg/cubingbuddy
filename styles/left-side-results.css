@@ -31,6 +31,8 @@ This is the css for the left container that holds all the times + pbs
     height: 350px;
 
     box-shadow: inset 0px -5px 5px 0 rgb(0, 0, 0, 0.1), inset 0px 5px 5px 0 rgb(0, 0, 0, 0.1);
+
+    border-radius: 0px;
 }
 
 /* Contains all the times (nth solve, the time, and cur ao5) */

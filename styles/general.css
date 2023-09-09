@@ -31,3 +31,13 @@ button {
 .hidden {
     display: none;
 }
+
+/* Optional: idk if i like border radius or not */
+.left-side,
+.display-container,
+.upper-right-container,
+.middle-container,
+.typing-container,
+.last-container {
+    border-radius: 15px;
+}
