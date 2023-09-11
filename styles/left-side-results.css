@@ -110,6 +110,7 @@ This is the css for the left container that holds all the times + pbs
 .pb-text {
     font-size: 16px;
     margin-top: 5px;
+    margin: 5px 0px 5px 0px;
 
     /*
     border-bottom-width: 1px;
@@ -117,4 +118,16 @@ This is the css for the left container that holds all the times + pbs
     border-bottom-color:rgb(71, 38, 53);
     */
 
+}
+
+.pb-button {
+    margin-left: 10px;
+    margin-right: 40px;
+    margin-bottom: 10px;
+    background-color: rgb(232, 215, 255);
+    border: none;
+}
+
+.pb-button:hover {
+    background-color: rgb(216, 198, 240);
 }

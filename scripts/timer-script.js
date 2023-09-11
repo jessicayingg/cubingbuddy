@@ -62,6 +62,10 @@ const speechBubbleContainer = document.querySelector('.js-speech-bubble-containe
 const speechBubble = document.querySelector('.js-speech-bubble');
 const speechBubbleText = document.querySelector('.js-bubble-text');
 
+const pbSingleButton = document.querySelector('.js-pb-single-button');
+const pbAo5Button = document.querySelector('.js-pb-ao5-button');
+const pbAo12Button = document.querySelector('.js-pb-ao12-button');
+const pbAo100Button = document.querySelector('.js-pb-ao100-button');
 
 
 // VARIABLES
@@ -89,9 +93,21 @@ let curEndTime;
 
 // For storing times
 let timesList = [];
-let bestSingle = Number.MAX_VALUE;
-let bestAo5 = Number.MAX_VALUE;
-let bestAo12 = Number.MAX_VALUE;
+//let bestSingle = Number.MAX_VALUE;
+let bestSingle = {
+    time: Number.MAX_VALUE,
+    scramble: ''
+};
+//let bestAo5 = Number.MAX_VALUE;
+let bestAo5 = {
+    time: Number.MAX_VALUE,
+    scrambles: []
+};
+//let bestAo12 = Number.MAX_VALUE;
+let bestAo12 = {
+    time: Number.MAX_VALUE,
+    scrambles: []
+};
 let bestAo100 = Number.MAX_VALUE;
 
 // For averages
@@ -104,6 +120,10 @@ let curAo100;
 
 // For scramble
 let lastScramble = '';
+
+let curScramble = '';
+let cur5Scramble = [];
+let cur12Scramble = [];
 
 // TRYING FOR SIDEBAR
 let isSidebarOpen = false;
@@ -371,7 +391,17 @@ buddyImage.addEventListener('click', (event) => {
     showSpeechBubble("I'm your cubing buddy!");
 });
 
+pbSingleButton.addEventListener('click', (event) => {
+    console.log(bestSingle.scramble);
+});
 
+pbAo5Button.addEventListener('click', (event) => {
+    console.log(bestAo5.scrambles);
+});
+
+pbAo12Button.addEventListener('click', (event) => {
+    console.log(bestAo12.scrambles);
+});
 
 
 
@@ -482,8 +512,9 @@ function recordTime(fromTimer) {
     timesList.push(curTime);
 
     // Finding the fastest single
-    if(curTime < bestSingle) {
-        bestSingle = curTime;
+    if(curTime < bestSingle.time) {
+        bestSingle.time = curTime;
+        bestSingle.scramble = curScramble;
 
         showSpeechBubble('New best single!');
     }
@@ -492,22 +523,32 @@ function recordTime(fromTimer) {
     if(curAo5List.length < 5) {
         // Just adding if less than 5 solves recorded
         curAo5List.push(curTime);
+
+        cur5Scramble.push(curScramble);
     }
     else {
         // Delete first solve, add on the new one
         curAo5List.splice(0, 1);
         curAo5List.push(curTime);
+
+        cur5Scramble.splice(0, 1);
+        cur5Scramble.push(curScramble);
     }
 
     // Adding to ao12
     if(curAo12List.length < 12) {
         // Just adding if less than 12 solves recorded
         curAo12List.push(curTime);
+
+        cur12Scramble.push(curScramble);
     }
     else {
         // Delete first solve, add on the new one
         curAo12List.splice(0, 1);
         curAo12List.push(curTime);
+
+        cur12Scramble.splice(0, 1);
+        cur12Scramble.push(curTime);
     }
 
     // Adding to ao100
@@ -534,7 +575,8 @@ function recordTime(fromTimer) {
 
     // Times and pbs
     addTime();
-    addPbs();
+    //addPbs();
+    displayPBs();
 
     // Generate new scramble
     getNewScramble();
@@ -578,8 +620,9 @@ function findAverageOf5() {
     }
 
     // Find best average
-    if(curAo5 < bestAo5) {
-        bestAo5 = curAo5;
+    if(curAo5 < bestAo5.time) {
+        bestAo5.time = curAo5;
+        bestAo5.scrambles = cur5Scramble;
 
         showSpeechBubble('New best average of 5!');
     }
@@ -615,8 +658,9 @@ function findAverageOf12() {
     }
 
     // Find best average
-    if(curAo12 < bestAo12) {
-        bestAo12 = curAo12;
+    if(curAo12 < bestAo12.time) {
+        bestAo12.time = curAo12;
+        bestAo12.scrambles = cur12Scramble;
 
         showSpeechBubble('New best average of 12!');
     }
@@ -755,7 +799,9 @@ var cstimerScrambler = (function() {
 // HERE
 cstimerScrambler.getScramble(['333'], function(scramble) {
     scrambleElement.innerHTML = scramble;
+    curScramble = scramble;
 });
+
 
 // cstimerScrambler.getScramble(scrambleArgs, callback);
 // scrambleArgs: [scramble type, scramble length (can be ignored for some scramble types), specific state (for oll, pll, etc) or undefined]
@@ -787,46 +833,55 @@ function getNewScramble() {
     if(dropDownElement.value === '3x3') {
         cstimerScrambler.getScramble(['333'], function(scramble) {
             scrambleElement.innerHTML = scramble;
+            curScramble = scramble;
         });
     }
     else if(dropDownElement.value === 'Pyraminx') {
         cstimerScrambler.getScramble(['pyrso'], function(scramble) {
             scrambleElement.innerHTML = scramble;
+            curScramble = scramble;
         });
     }
     else if(dropDownElement.value === 'Skewb') {
         cstimerScrambler.getScramble(['skbso'], function(scramble) {
             scrambleElement.innerHTML = scramble;
+            curScramble = scramble;
         });
     }
     else if(dropDownElement.value === '2x2') {
         cstimerScrambler.getScramble(['222so'], function(scramble) {
             scrambleElement.innerHTML = scramble;
+            curScramble = scramble;
         });
     }
     else if(dropDownElement.value === '4x4') {
         cstimerScrambler.getScramble(['444wca'], function(scramble) {
             scrambleElement.innerHTML = scramble;
+            curScramble = scramble;
         });
     }
     else if(dropDownElement.value === '5x5') {
         cstimerScrambler.getScramble(['555wca', 60], function(scramble) {
             scrambleElement.innerHTML = scramble;
+            curScramble = scramble;
         });
     }
     else if(dropDownElement.value === 'Square-1') {
         cstimerScrambler.getScramble(['sqrs'], function(scramble) {
             scrambleElement.innerHTML = scramble;
+            curScramble = scramble;
         });
     }
     else if(dropDownElement.value === 'Clock') {
         cstimerScrambler.getScramble(['clkwca'], function(scramble) {
             scrambleElement.innerHTML = scramble;
+            curScramble = scramble;
         });
     }
     else if(dropDownElement.value === 'Megaminx') {
         cstimerScrambler.getScramble(['mgmp', 77], function(scramble) {
             scrambleElement.innerHTML = scramble;
+            curScramble = scramble;
         });
     }
     else {
@@ -853,7 +908,7 @@ function addPbs() {
     // If there is 100+ solves
     if(curAo100List.length >= 100) {
         HTMLToAdd2 += `
-        <p class="pb-text">${bestSingle}</p>
+        <p class="pb-text">${bestSingle.time}</p>
         <p class="pb-text">Single</p>
         <p class="pb-text">${bestAo5}</p>
         <p class="pb-text">Ao5</p>
@@ -866,7 +921,7 @@ function addPbs() {
     // If there is 12+ solves
     else if(curAo12List.length >= 12) {
         HTMLToAdd2 += `
-        <p class="pb-text">${bestSingle}</p>
+        <p class="pb-text">${bestSingle.time}</p>
         <p class="pb-text">Single</p>
         <p class="pb-text">${bestAo5}</p>
         <p class="pb-text">Ao5</p>
@@ -879,7 +934,7 @@ function addPbs() {
     // If there is 5+ solves
     else if(curAo5List.length >= 5) {
         HTMLToAdd2 += `
-        <p class="pb-text">${bestSingle}</p>
+        <p class="pb-text">${bestSingle.time}</p>
         <p class="pb-text">Single</p>
         <p class="pb-text">${bestAo5}</p>
         <p class="pb-text">Ao5</p>
@@ -892,7 +947,7 @@ function addPbs() {
     // Less than 5 solves
     else {
         HTMLToAdd2 += `
-        <p class="pb-text">${bestSingle}</p>
+        <p class="pb-text">${bestSingle.time}</p>
         <p class="pb-text">Single</p>
         <p class="pb-text">-</p>
         <p class="pb-text">Ao5</p>
@@ -904,6 +959,32 @@ function addPbs() {
     }
 
     pbDisplay.innerHTML = HTMLToAdd2;
+}
+
+function displayPBs() {
+    /*
+    pbAo100Button.innerHTML = `<p class="js-pb-single pb-text">${bestAo100.time}</p>`; */
+
+    if(curAo100List.length >= 100) {
+        pbSingleButton.innerHTML = `<p class="js-pb-single pb-text">${bestSingle.time}</p>`;
+        pbAo5Button.innerHTML = `<p class="js-pb-single pb-text">${bestAo5.time}</p>`;
+        pbAo12Button.innerHTML = `<p class="js-pb-single pb-text">${bestAo12.time}</p>`;
+    }
+    // If there is 12+ solves
+    else if(curAo12List.length >= 12) {
+        pbSingleButton.innerHTML = `<p class="js-pb-single pb-text">${bestSingle.time}</p>`;
+        pbAo5Button.innerHTML = `<p class="js-pb-single pb-text">${bestAo5.time}</p>`;
+        pbAo12Button.innerHTML = `<p class="js-pb-single pb-text">${bestAo12.time}</p>`;
+    }
+    // If there is 5+ solves
+    else if(curAo5List.length >= 5) {
+        pbSingleButton.innerHTML = `<p class="js-pb-single pb-text">${bestSingle.time}</p>`;
+        pbAo5Button.innerHTML = `<p class="js-pb-single pb-text">${bestAo5.time}</p>`;
+    }
+    // Less than 5 solves
+    else {
+        pbSingleButton.innerHTML = `<p class="js-pb-single pb-text">${bestSingle.time}</p>`;
+    }
 }
 
 // This activates after pressing the set goal button and sets the goal selected
@@ -1237,9 +1318,18 @@ function resetAllTimes() {
     curAo12List = [];
     curAo100List = [];
 
-    bestSingle = Number.MAX_VALUE;
-    bestAo5 = Number.MAX_VALUE;
-    bestAo12 = Number.MAX_VALUE;
+    //bestSingle = Number.MAX_VALUE;
+    bestSingle.time = Number.MAX_VALUE;
+    bestSingle.scramble = '';
+
+    //bestAo5 = Number.MAX_VALUE;
+    bestAo5.time = Number.MAX_VALUE;
+    bestAo5.scrambles = [];
+
+    //bestAo12 = Number.MAX_VALUE;
+    bestAo12.time = Number.MAX_VALUE;
+    bestAo12.scrambles = [];
+
     bestAo100 = Number.MAX_VALUE;
 
     curAo5 = Number.MAX_VALUE;
