@@ -1347,6 +1347,11 @@ function resetAllTimes() {
     bestAo100.time = Number.MAX_VALUE;
     bestAo100.scrambles = [];
 
+    pbSingleButton.innerHTML = `<p class="js-pb-single pb-text">-</p>`;
+    pbAo5Button.innerHTML = `<p class="js-pb-single pb-text">-</p>`;
+    pbAo12Button.innerHTML = `<p class="js-pb-single pb-text">-</p>`;
+    pbAo100Button.innerHTML = `<p class="js-pb-single pb-text">-</p>`;
+
     curAo5 = Number.MAX_VALUE;
     curAo12 = Number.MAX_VALUE;
     curAo100 = Number.MAX_VALUE;
