@@ -108,7 +108,11 @@ let bestAo12 = {
     time: Number.MAX_VALUE,
     scrambles: []
 };
-let bestAo100 = Number.MAX_VALUE;
+//let bestAo100 = Number.MAX_VALUE;
+let bestAo100 = {
+    time: Number.MAX_VALUE,
+    scrambles: []
+};
 
 // For averages
 let curAo5List = [];
@@ -124,6 +128,7 @@ let lastScramble = '';
 let curScramble = '';
 let cur5Scramble = [];
 let cur12Scramble = [];
+let cur100Scramble = [];
 
 // TRYING FOR SIDEBAR
 let isSidebarOpen = false;
@@ -403,6 +408,10 @@ pbAo12Button.addEventListener('click', (event) => {
     console.log(bestAo12.scrambles);
 });
 
+pbAo100Button.addEventListener('click', (event) => {
+    console.log(bestAo100.scrambles);
+});
+
 
 
 // Starting and stopping timer
@@ -548,18 +557,23 @@ function recordTime(fromTimer) {
         curAo12List.push(curTime);
 
         cur12Scramble.splice(0, 1);
-        cur12Scramble.push(curTime);
+        cur12Scramble.push(curScramble);
     }
 
     // Adding to ao100
     if(curAo100List.length < 100) {
         // Just adding if less than 100 solves recorded
         curAo100List.push(curTime);
+
+        cur100Scramble.push(curScramble);
     }
     else {
         // Delete first solve, add on the new one
         curAo100List.splice(0, 1);
         curAo100List.push(curTime);
+
+        cur100Scramble.splice(0, 1);
+        cur100Scramble.push(curScramble);
     }
 
     /*
@@ -696,8 +710,9 @@ function findAverageOf100() {
     }
 
     // Find best average
-    if(curAo100 < bestAo100) {
-        bestAo100 = curAo100;
+    if(curAo100 < bestAo100.time) {
+        bestAo100.time = curAo100;
+        bestAo100.scrambles = cur100Scramble;
 
         showSpeechBubble('New best average of 100!');
     }
@@ -962,13 +977,12 @@ function addPbs() {
 }
 
 function displayPBs() {
-    /*
-    pbAo100Button.innerHTML = `<p class="js-pb-single pb-text">${bestAo100.time}</p>`; */
 
     if(curAo100List.length >= 100) {
         pbSingleButton.innerHTML = `<p class="js-pb-single pb-text">${bestSingle.time}</p>`;
         pbAo5Button.innerHTML = `<p class="js-pb-single pb-text">${bestAo5.time}</p>`;
         pbAo12Button.innerHTML = `<p class="js-pb-single pb-text">${bestAo12.time}</p>`;
+        pbAo100Button.innerHTML = `<p class="js-pb-single pb-text">${bestAo100.time}</p>`;
     }
     // If there is 12+ solves
     else if(curAo12List.length >= 12) {
@@ -1330,7 +1344,8 @@ function resetAllTimes() {
     bestAo12.time = Number.MAX_VALUE;
     bestAo12.scrambles = [];
 
-    bestAo100 = Number.MAX_VALUE;
+    bestAo100.time = Number.MAX_VALUE;
+    bestAo100.scrambles = [];
 
     curAo5 = Number.MAX_VALUE;
     curAo12 = Number.MAX_VALUE;
