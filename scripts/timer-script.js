@@ -589,7 +589,6 @@ function recordTime(fromTimer) {
 
     // Times and pbs
     addTime();
-    //addPbs();
     displayPBs();
 
     // Generate new scramble
@@ -914,66 +913,6 @@ function getLastScramble() {
         lastScramble = '';
         prevIconElement.classList.add('no-prev-scramble');
     }
-}
-
-// Displays Pbs
-function addPbs() {
-    let HTMLToAdd2 = '';
-
-    // If there is 100+ solves
-    if(curAo100List.length >= 100) {
-        HTMLToAdd2 += `
-        <p class="pb-text">${bestSingle.time}</p>
-        <p class="pb-text">Single</p>
-        <p class="pb-text">${bestAo5}</p>
-        <p class="pb-text">Ao5</p>
-        <p class="pb-text">${bestAo12}</p>
-        <p class="pb-text">Ao12</p>
-        <p class="pb-text">${bestAo100}</p>
-        <p class="pb-text">Ao100</p>
-    `;
-    }
-    // If there is 12+ solves
-    else if(curAo12List.length >= 12) {
-        HTMLToAdd2 += `
-        <p class="pb-text">${bestSingle.time}</p>
-        <p class="pb-text">Single</p>
-        <p class="pb-text">${bestAo5}</p>
-        <p class="pb-text">Ao5</p>
-        <p class="pb-text">${bestAo12}</p>
-        <p class="pb-text">Ao12</p>
-        <p class="pb-text">-</p>
-        <p class="pb-text">Ao100</p>
-    `;
-    }
-    // If there is 5+ solves
-    else if(curAo5List.length >= 5) {
-        HTMLToAdd2 += `
-        <p class="pb-text">${bestSingle.time}</p>
-        <p class="pb-text">Single</p>
-        <p class="pb-text">${bestAo5}</p>
-        <p class="pb-text">Ao5</p>
-        <p class="pb-text">-</p>
-        <p class="pb-text">Ao12</p>
-        <p class="pb-text">-</p>
-        <p class="pb-text">Ao100</p>
-    `;
-    }
-    // Less than 5 solves
-    else {
-        HTMLToAdd2 += `
-        <p class="pb-text">${bestSingle.time}</p>
-        <p class="pb-text">Single</p>
-        <p class="pb-text">-</p>
-        <p class="pb-text">Ao5</p>
-        <p class="pb-text">-</p>
-        <p class="pb-text">Ao12</p>
-        <p class="pb-text">-</p>
-        <p class="pb-text">Ao100</p>
-    `;
-    }
-
-    pbDisplay.innerHTML = HTMLToAdd2;
 }
 
 function displayPBs() {
