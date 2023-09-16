@@ -15,18 +15,6 @@ button {
     cursor: pointer;
 }
 
-/* The dark gray that covers the screen */
-.screen-cover {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    top: 0;
-    right: 0;
-    background-color: rgb(0, 0, 0, 0.5); 
-
-    z-index: 100;
-}
-
 /* For elements that are not meant to be seen */
 .hidden {
     display: none;

@@ -67,6 +67,11 @@ const pbAo5Button = document.querySelector('.js-pb-ao5-button');
 const pbAo12Button = document.querySelector('.js-pb-ao12-button');
 const pbAo100Button = document.querySelector('.js-pb-ao100-button');
 
+const xButton = document.querySelector('.js-x-button');
+const pbPopup = document.querySelector('.js-pb-popup');
+const pbPopupTitle = document.querySelector('.js-pb-popup-title');
+const pbPopupTimes = document.querySelector('.js-pb-popup-times');
+const pbPopupScrambles = document.querySelector('.js-pb-popup-scrambles');
 
 // VARIABLES
 
@@ -397,21 +402,25 @@ buddyImage.addEventListener('click', (event) => {
 });
 
 pbSingleButton.addEventListener('click', (event) => {
-    console.log(bestSingle.scramble);
+    showPbDetails(1);
 });
 
 pbAo5Button.addEventListener('click', (event) => {
-    console.log(bestAo5.scrambles);
+    showPbDetails(5);
 });
 
 pbAo12Button.addEventListener('click', (event) => {
-    console.log(bestAo12.scrambles);
+    showPbDetails(12);
 });
 
 pbAo100Button.addEventListener('click', (event) => {
-    console.log(bestAo100.scrambles);
+    showPbDetails(100);
 });
 
+xButton.addEventListener('click', (event) => {
+    pbPopup.classList.add('hidden');
+    screenCover.classList.add('hidden');
+});
 
 
 // Starting and stopping timer
@@ -1298,4 +1307,41 @@ function resetAllTimes() {
     timesDisplay.innerHTML = '';
     pbDisplay.innerHTML = '';
     stopwatchDisplay.innerHTML = '0.000';
+}
+
+function showPbDetails(pbType) {
+    let timesHTMLToAdd = '';
+    let scramblesHTMLToAdd = '';
+
+    if(pbType == '1') {
+        console.log(bestSingle.scramble);
+        pbPopupTitle.innerHTML = 'Best single';
+
+        if(timesList.length >= 1) {
+            timesHTMLToAdd = bestSingle.time;
+            scramblesHTMLToAdd = bestSingle.scramble;
+        }
+        else {
+            timesHTMLToAdd = '-';
+            scramblesHTMLToAdd = '-';
+        }
+
+        pbPopupTimes.innerHTML = timesHTMLToAdd;
+        pbPopupScrambles.innerHTML = scramblesHTMLToAdd;
+    }
+    else if(pbType == '5') {
+        console.log(bestAo5.scrambles);
+        pbPopupTitle.innerHTML = 'Best average of 5 (ao5)';
+    }
+    else if(pbType == '12') {
+        console.log(bestAo12.scrambles);
+        pbPopupTitle.innerHTML = 'Best average of 12 (ao12)';
+    }
+    else if(pbType == '100') {
+        console.log(bestAo100.scrambles);
+        pbPopupTitle.innerHTML = 'Best average of 100 (ao100)';
+    }
+
+    pbPopup.classList.remove('hidden');
+    screenCover.classList.remove('hidden');
 }
