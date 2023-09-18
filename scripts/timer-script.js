@@ -1309,10 +1309,12 @@ function resetAllTimes() {
     stopwatchDisplay.innerHTML = '0.000';
 }
 
+// This shows details of a personal best
 function showPbDetails(pbType) {
     let timesHTMLToAdd = '';
     let scramblesHTMLToAdd = '';
 
+    // Single
     if(pbType == '1') {
         console.log(bestSingle.scramble);
         pbPopupTitle.innerHTML = 'Best single';
@@ -1326,22 +1328,27 @@ function showPbDetails(pbType) {
             scramblesHTMLToAdd = '-';
         }
 
+        // Showing the time and its associated scramble
         pbPopupTimes.innerHTML = timesHTMLToAdd;
         pbPopupScrambles.innerHTML = scramblesHTMLToAdd;
     }
+    // ao5
     else if(pbType == '5') {
         console.log(bestAo5.scrambles);
         pbPopupTitle.innerHTML = 'Best average of 5 (ao5)';
     }
+    // ao12
     else if(pbType == '12') {
         console.log(bestAo12.scrambles);
         pbPopupTitle.innerHTML = 'Best average of 12 (ao12)';
     }
+    // ao100
     else if(pbType == '100') {
         console.log(bestAo100.scrambles);
         pbPopupTitle.innerHTML = 'Best average of 100 (ao100)';
     }
 
+    // Making the popup show up
     pbPopup.classList.remove('hidden');
     screenCover.classList.remove('hidden');
 }
