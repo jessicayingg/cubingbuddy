@@ -361,6 +361,10 @@ screenCover.addEventListener('click', (event) => {
         closeSideBar();
         isSidebarOpen = false;
     }
+    else if(!restStarted) {
+        screenCover.classList.add('hidden');
+        pbPopup.classList.add('hidden');
+    }
 });
 
 // Set goals first page (goal set options)
