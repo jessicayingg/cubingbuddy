@@ -1160,11 +1160,11 @@ function rotateCharacterPics(rotateSpeed, direction) {
     buddyRotateIntervalID = setInterval(() => {
         // Forward
         if(direction === 'f') {
-            buddyImage.src = `icons/buddy-icons/KirbyRWalk${count}.png`;
+            buddyImage.src = `icons/buddy-icons/Kirby_Buddy/KirbyRWalk${count}.png`;
         }
         // Backward
         else {
-            buddyImage.src = `icons/buddy-icons/KirbyLWalk${count}.png`;
+            buddyImage.src = `icons/buddy-icons/Kirby_Buddy/KirbyLWalk${count}.png`;
         }
         count++;
 
@@ -1221,7 +1221,7 @@ function characterWalk(walkSpeed, direction) {
 function stopBuddyAnimation() {
     clearInterval(buddyRotateIntervalID);
     clearInterval(buddySpeedIntervalID);
-    buddyImage.src = "icons/buddy-icons/KirbyR.png";
+    buddyImage.src = "icons/buddy-icons/Kirby_Buddy/KirbyR.png";
 }
 
 // This shows the speech bubble and displays a certain string
