@@ -1153,30 +1153,30 @@ function clearGoalDisplay() {
 let distCount = 0;
 
 // For changing images of the buddy as it walks
-function rotateCharacterPics(rotateSpeed, direction) {
+function rotateCharacterPics(rotateSpeed, direction, numPics, characterName) {
     let count = 1;
     
     // Displays buddy image 
     buddyRotateIntervalID = setInterval(() => {
         // Forward
         if(direction === 'f') {
-            buddyImage.src = `icons/buddy-icons/Kirby_Buddy/KirbyRWalk${count}.png`;
+            buddyImage.src = `icons/buddy-icons/${characterName}_Buddy/${characterName}RWalk${count}.png`;
         }
         // Backward
         else {
-            buddyImage.src = `icons/buddy-icons/Kirby_Buddy/KirbyLWalk${count}.png`;
+            buddyImage.src = `icons/buddy-icons/${characterName}_Buddy/${characterName}LWalk${count}.png`;
         }
         count++;
 
         // Reset back to 1
-        if(count === 11) {
+        if(count === numPics+1) {
             count = 1;
         }
     }, rotateSpeed);
 }
 
 // For moving the character's horizontal position as it walks
-function characterWalk(walkSpeed, direction) {
+function characterWalk(walkSpeed, direction, numPics, characterName) {
 
     buddySpeedIntervalID = setInterval(() => {
         // Forward
@@ -1194,15 +1194,15 @@ function characterWalk(walkSpeed, direction) {
 
         // Making backward
         if(distCount >= 320) {
-            stopBuddyAnimation();
-            rotateCharacterPics(200, 'b');
-            characterWalk(walkSpeed, 'b');
+            stopBuddyAnimation(characterName);
+            rotateCharacterPics(200, 'b', numPics, characterName);
+            characterWalk(walkSpeed, 'b', numPics, characterName);
         }
         // Making forward 
         else if(distCount <= 1) {
-            stopBuddyAnimation();
-            rotateCharacterPics(200, 'f');
-            characterWalk(walkSpeed, 'f');
+            stopBuddyAnimation(characterName);
+            rotateCharacterPics(200, 'f', numPics, characterName);
+            characterWalk(walkSpeed, 'f', numPics, characterName);
         }
 
         // Speech bubble has to flip directions because it sticks out
@@ -1218,10 +1218,10 @@ function characterWalk(walkSpeed, direction) {
 }
 
 // This resets all animations for the buddy
-function stopBuddyAnimation() {
+function stopBuddyAnimation(characterName) {
     clearInterval(buddyRotateIntervalID);
     clearInterval(buddySpeedIntervalID);
-    buddyImage.src = "icons/buddy-icons/Kirby_Buddy/KirbyR.png";
+    buddyImage.src = `icons/buddy-icons/${characterName}_Buddy/${characterName}R.png`;
 }
 
 // This shows the speech bubble and displays a certain string
@@ -1237,8 +1237,8 @@ function showSpeechBubble(strToDisplay) {
     }, 4000);
 }
 
-rotateCharacterPics(300, 'f');
-characterWalk(20, 'f');
+rotateCharacterPics(300, 'f', 10, 'Kirby');
+characterWalk(20, 'f', 10, 'Kirby');
 
 // This displays a random encouraing message in the speech bubble at a random interval
 function displayEncouragingMessage() {
