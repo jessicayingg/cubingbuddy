@@ -70,3 +70,9 @@ This is for the sidebar
     color: rgb(150, 209, 168);
     display: inline-block;
 }
+
+.sidebar-option button {
+    background-color: transparent;
+    border: none;
+    padding-right: 66px;
+}
