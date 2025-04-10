@@ -1,258 +1,305 @@
 <!DOCTYPE html>
 
 <html>
+  <head>
+    <title>CubingBuddy</title>
+    <link rel="icon" type="image/png" href="icons/cubingbuddy_favicon.png" />
 
-    <head>
-        <title>CubingBuddy</title>
-        <link rel="icon" type="image/png" href="icons/cubingbuddy_favicon.png"/>
+    <link rel="stylesheet" href="styles/timer-style.css" />
+    <link rel="stylesheet" href="styles/sidebar-style.css" />
+    <link rel="stylesheet" href="styles/left-side-results.css" />
+    <link rel="stylesheet" href="styles/right-side-pages.css" />
+    <link rel="stylesheet" href="styles/right-side-buddy.css" />
 
-        <link rel="stylesheet" href="styles/timer-style.css">
-        <link rel="stylesheet" href="styles/sidebar-style.css">
-        <link rel="stylesheet" href="styles/left-side-results.css">
-        <link rel="stylesheet" href="styles/right-side-pages.css">
-        <link rel="stylesheet" href="styles/right-side-buddy.css">
+    <link rel="stylesheet" href="styles/pop-ups.css" />
 
-        <link rel="stylesheet" href="styles/pop-ups.css">
+    <link rel="stylesheet" href="styles/general.css" />
 
-        <link rel="stylesheet" href="styles/general.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    </head>
+  <body>
+    <div class="big-container">
+      <div class="left-side">
+        <div class="titles-container">
+          <button class="js-logo sidebar-button">
+            <img class="logo" src="icons/cubingbuddy_logo.png" />
+          </button>
+          <p class="title">Time</p>
+          <p class="title">Ao5</p>
+        </div>
 
-    <body>
-        <div class="big-container">
-            <div class="left-side">
-                <div class="titles-container">
-                    <button class="js-logo sidebar-button">
-                        <img class="logo" src="icons/cubingbuddy_logo.png">
-                    </button>
-                    <p class="title">Time</p>
-                    <p class="title">Ao5</p>
-                </div>
+        <div class="big-times-container">
+          <div class="js-times times-container"></div>
+        </div>
 
-                <div class="big-times-container">
-                    <div class="js-times times-container">
-    
-                    </div>
-                </div>
+        <div class="pb-titles-container">
+          <p class="pb-title">PBs</p>
+          <p class="pb-title">Type</p>
 
-                <div class="pb-titles-container">
-                    <p class="pb-title">PBs</p>
-                    <p class="pb-title">Type</p>
+          <button class="js-pb-single-button pb-button">
+            <p class="js-pb-single pb-text">-</p>
+          </button>
 
-                    <button class="js-pb-single-button pb-button">
-                        <p class="js-pb-single pb-text">-</p>
-                    </button>
+          <p class="pb-text">Single</p>
 
-                    <p class="pb-text">Single</p>
+          <button class="js-pb-ao5-button pb-button">
+            <p class="js-pb-ao5 pb-text">-</p>
+          </button>
 
-                    <button class="js-pb-ao5-button pb-button">
-                        <p class="js-pb-ao5 pb-text">-</p>
-                    </button>
+          <p class="pb-text">Ao5</p>
 
-                    <p class="pb-text">Ao5</p>
+          <button class="js-pb-ao12-button pb-button">
+            <p class="js-pb-ao12 pb-text">-</p>
+          </button>
 
-                    <button class="js-pb-ao12-button pb-button">
-                        <p class="js-pb-ao12 pb-text">-</p>
-                    </button>
+          <p class="pb-text">Ao12</p>
 
-                    <p class="pb-text">Ao12</p>
+          <button class="js-pb-ao100-button pb-button">
+            <p class="js-pb-ao100 pb-text">-</p>
+          </button>
 
-                    <button class="js-pb-ao100-button pb-button">
-                        <p class="js-pb-ao100 pb-text">-</p>
-                    </button>
+          <p class="pb-text">Ao100</p>
+        </div>
 
-                    <p class="pb-text">Ao100</p>
+        <div class="js-pbs personal-bests-container"></div>
+      </div>
 
-                </div>
+      <div class="right-side">
+        <div class="upper-container">
+          <div class="display-container">
+            <p class="js-display display">0.000</p>
+          </div>
 
-                <div class="js-pbs personal-bests-container">
-
-                </div>
+          <div class="upper-right-container">
+            <div class="page-selector-container">
+              <button class="js-selected-button page-selected-button">
+                Draw Scramble
+              </button>
+              <button class="js-other-button other-page-button">
+                Set Goals
+              </button>
             </div>
 
-            <div class="right-side">
-                <div class="upper-container">
-                    <div class="display-container">
-                        <p class="js-display display">0.000</p>
-                    </div>
-
-                    <div class="upper-right-container">
-                        <div class="page-selector-container">
-
-                            <button class="js-selected-button page-selected-button">Draw Scramble</button>
-                            <button class="js-other-button other-page-button">Set Goals</button>
-
-                        </div>
-
-                        <div class="js-scramble-container scramble-pic-container">
-                            <select class="js-dropdown cube-type-dropdown" onchange="
+            <div class="js-scramble-container scramble-pic-container">
+              <select
+                class="js-dropdown cube-type-dropdown"
+                onchange="
                                 getNewScramble();
                                 resetAllTimes();
-                            ">
-                                <option>3x3</option>
-                                <option>Pyraminx</option>
-                                <option>Skewb</option>
-                                <option>2x2</option>
-                                <option>4x4</option>
-                                <option>5x5</option>
-                                <option>6x6</option>
-                                <option>Square-1</option>
-                                <option>Clock</option>
-                                <option>Megaminx</option>
-                            </select>
-                        </div>
-
-                        <div class="js-goals goals-container hidden">
-                            <div class="js-goals-first-page goals-container-first hidden">
-                                <div class="num-container">
-                                    <div class="goal-title">num solves: </div>
-                                <input class="js-num-solves-input" type="number" min="0" max="50" value="0">
-                                </div>
-    
-                                <div class="set-container">
-                                    <div class="goal-title">sets: </div>
-                                    <div class="sets-options-container">
-                                        <div class="sets-options-buttons-container">
-                                            <button class="js-ao5 sets-options-unchosen-button">ao5</button>
-                                            <button class="js-ao12 sets-options-unchosen-button">ao12</button>
-                                            <button class="js-ao100 sets-options-unchosen-button">ao100</button>
-                                        </div>
-                                        <div class="sets-num-container">
-                                            <p># of sets: </p>
-                                            <input class="js-num-sets-input" type="number" min="0" max="50" value="0">
-                                        </div>
-                                    </div>
-                                </div>
-    
-                                <div class="rest-container">
-                                    <div class="goal-title">rest: </div>
-                                    <div class="rest-options-container">
-                                        <input class="js-num-rest-solves-input" type="number" min="0" max="50" value="0">
-                                        <p>solves before rest</p>
-                                        <input class="js-rest-duration-input" type="number" min="0" max="300" value="0" step="15">
-                                        <p>seconds of rest</p>
-                                    </div>
-                                </div>
-    
-                                <div>
-                                    <button class="js-set-goal set-goal-button">Set Goal</button>
-                                    <button class="js-reset-goal reset-goal-button">Reset Goals</button>
-                                </div>
-    
-                                <div class="js-num-goal-cover num-container-cover"></div>
-                                <div class="js-sets-goal-cover set-container-cover"></div>
-                                <div class="js-rest-goal-cover rest-container-cover"></div>
-                            </div>
-
-                            <button class="js-first-page first-page-button"></button>
-                            <button class="js-second-page second-page-button not-cur-page"></button>
-
-                            <div class="js-goals-second-page goals-container-second hidden">
-                                <div class="goal-tracker-container">
-                                    <div>
-                                        <p class="current-goal-title">Current goal </p>
-                                    </div>
-                                    <p class="js-cur-goal current-goal"></p>
-                                    <div>
-                                        <p class="goal-progress-title">Goal progress </p>
-                                    </div>
-                                    <p class="js-goal-progress goal-progress"></p>
-                                    <p class="js-extra-progress goal-extra-progress"></p>
-                                </div>
-
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-
-                <div class="middle-container">
-                    <button class="js-prev prev-scramble-button">
-                        <img class="js-prev-icon scramble-nav-icon no-prev-scramble" src="icons/prev-icon.png">
-                    </button>
-                    
-                    <p class="js-scramble scramble"></p>
-
-                    <button class="js-next next-scramble-button">
-                        <img class="scramble-nav-icon" src="icons/next-icon.png">
-                    </button>
-                </div>
-
-                <div class="bottom-container">
-                    <div class="typing-container">
-                        <input class="js-user-input manual-time-entry" type="text" placeholder="Type to add result">
-                        <button class="js-manual-result enter-result-button">Enter</button>
-                    </div>
-
-                    <div class="last-container">
-                        <img class="js-buddy buddy-icon" src="icons/buddy-icons/KirbyR.png">
-                        <div class="js-speech-bubble-container speech-bubble-container hidden">
-                            <img class="js-speech-bubble speech-bubble" src="icons/speech-bubble.png">
-                            <p class="js-bubble-text">Goal completed!</p>
-                        </div>
-                    </div>
-                </div>
+                            "
+              >
+                <option>3x3</option>
+                <option>Pyraminx</option>
+                <option>Skewb</option>
+                <option>2x2</option>
+                <option>4x4</option>
+                <option>5x5</option>
+                <option>6x6</option>
+                <option>Square-1</option>
+                <option>Clock</option>
+                <option>Megaminx</option>
+              </select>
             </div>
+
+            <div class="js-goals goals-container hidden">
+              <div class="js-goals-first-page goals-container-first hidden">
+                <div class="num-container">
+                  <div class="goal-title">num solves:</div>
+                  <input
+                    class="js-num-solves-input"
+                    type="number"
+                    min="0"
+                    max="50"
+                    value="0"
+                  />
+                </div>
+
+                <div class="set-container">
+                  <div class="goal-title">sets:</div>
+                  <div class="sets-options-container">
+                    <div class="sets-options-buttons-container">
+                      <button class="js-ao5 sets-options-unchosen-button">
+                        ao5
+                      </button>
+                      <button class="js-ao12 sets-options-unchosen-button">
+                        ao12
+                      </button>
+                      <button class="js-ao100 sets-options-unchosen-button">
+                        ao100
+                      </button>
+                    </div>
+                    <div class="sets-num-container">
+                      <p># of sets:</p>
+                      <input
+                        class="js-num-sets-input"
+                        type="number"
+                        min="0"
+                        max="50"
+                        value="0"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rest-container">
+                  <div class="goal-title">rest:</div>
+                  <div class="rest-options-container">
+                    <input
+                      class="js-num-rest-solves-input"
+                      type="number"
+                      min="0"
+                      max="50"
+                      value="0"
+                    />
+                    <p>solves until rest</p>
+                    <input
+                      class="js-rest-duration-input"
+                      type="number"
+                      min="0"
+                      max="300"
+                      value="0"
+                      step="15"
+                    />
+                    <p>seconds of rest</p>
+                  </div>
+                </div>
+
+                <div>
+                  <button class="js-set-goal set-goal-button">Set Goal</button>
+                  <button class="js-reset-goal reset-goal-button">
+                    Reset Goals
+                  </button>
+                </div>
+
+                <div class="js-num-goal-cover num-container-cover"></div>
+                <div class="js-sets-goal-cover set-container-cover"></div>
+                <div class="js-rest-goal-cover rest-container-cover"></div>
+              </div>
+
+              <button class="js-first-page first-page-button"></button>
+              <button
+                class="js-second-page second-page-button not-cur-page"
+              ></button>
+
+              <div class="js-goals-second-page goals-container-second hidden">
+                <div class="goal-tracker-container">
+                  <div>
+                    <p class="current-goal-title">Current goal</p>
+                  </div>
+                  <p class="js-cur-goal current-goal"></p>
+                  <div>
+                    <p class="goal-progress-title">Goal progress</p>
+                  </div>
+                  <p class="js-goal-progress goal-progress"></p>
+                  <p class="js-extra-progress goal-extra-progress"></p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <nav class="js-sidebar sidebar hidden">
-            <div class="sidebar-logo">
-                <img src="icons/cubingbuddy_logo.png">
-                <p class="web-name">Cubing Buddy</p>
-            </div>
-            
-            <div class="sidebar-option">
-                <img class="sidebar-icon" src="icons/sidebar-icons/settings-icon.png">
-                <p class="subtitle">Settings</p>
-            </div>
+        <div class="middle-container">
+          <button class="js-prev prev-scramble-button">
+            <img
+              class="js-prev-icon scramble-nav-icon no-prev-scramble"
+              src="icons/prev-icon.png"
+            />
+          </button>
 
-            <div class="sidebar-option">
-                <img class="sidebar-icon" src="icons/sidebar-icons/export-icon.png">
-                <p class="subtitle">Export</p>
-            </div>
+          <p class="js-scramble scramble"></p>
 
-            <div class="sidebar-option">
-                <button>
-                    <img class="sidebar-icon" src="icons/sidebar-icons/stats-icon.png">
-                    <p class="subtitle">Statistics</p>
-                </button>
-            </div>
-
-            <div class="sidebar-option">
-                <img class="sidebar-icon" src="icons/sidebar-icons/learn-icon.png">
-                <p class="subtitle">Learn</p>
-            </div>
-
-            <div class="sidebar-option">
-                <img class="sidebar-icon" src="icons/sidebar-icons/about-icon.png">
-                <p class="subtitle">About</p>
-            </div>
-
-        </nav>
-
-        <div class="js-cover screen-cover hidden"></div>
-        <div class="js-pb-popup pb-modal hidden">
-            <button class="js-x-button x-button">X</button>
-            <div class="pb-popup-title-container">
-                <p class="js-pb-popup-title pb-popup-title">Best single</p>
-            </div>
-
-            <div class="pb-popup-big-container">
-                <div class="js-pb-popup-times pb-popup-times-container">
-                    <p class="pb-popup-time"></p>
-                </div>
-    
-                <div class="js-pb-popup-scrambles pb-popup-scrambles-container">
-                    <p class="pb-popup-scramble"></p>
-                </div>
-            </div>
-
+          <button class="js-next next-scramble-button">
+            <img class="scramble-nav-icon" src="icons/next-icon.png" />
+          </button>
         </div>
 
-        <script src="scripts/timer-script.js"></script>
-    </body>
+        <div class="bottom-container">
+          <div class="typing-container">
+            <input
+              class="js-user-input manual-time-entry"
+              type="text"
+              placeholder="Type to add result"
+            />
+            <button class="js-manual-result enter-result-button">Enter</button>
+          </div>
 
+          <div class="last-container">
+            <img
+              class="js-buddy buddy-icon"
+              src="icons/buddy-icons/KirbyR.png"
+            />
+            <div
+              class="js-speech-bubble-container speech-bubble-container hidden"
+            >
+              <img
+                class="js-speech-bubble speech-bubble"
+                src="icons/speech-bubble.png"
+              />
+              <p class="js-bubble-text">Goal completed!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="js-sidebar sidebar hidden">
+      <div class="sidebar-logo">
+        <img src="icons/cubingbuddy_logo.png" />
+        <p class="web-name">Cubing Buddy</p>
+      </div>
+
+      <div class="sidebar-option">
+        <img class="sidebar-icon" src="icons/sidebar-icons/settings-icon.png" />
+        <p class="subtitle">Settings</p>
+      </div>
+
+      <div class="sidebar-option">
+        <img class="sidebar-icon" src="icons/sidebar-icons/export-icon.png" />
+        <p class="subtitle">Export</p>
+      </div>
+
+      <div class="sidebar-option">
+        <button>
+          <img class="sidebar-icon" src="icons/sidebar-icons/stats-icon.png" />
+          <p class="subtitle">Statistics</p>
+        </button>
+      </div>
+
+      <div class="sidebar-option">
+        <img class="sidebar-icon" src="icons/sidebar-icons/learn-icon.png" />
+        <p class="subtitle">Learn</p>
+      </div>
+
+      <div class="sidebar-option">
+        <img class="sidebar-icon" src="icons/sidebar-icons/about-icon.png" />
+        <p class="subtitle">About</p>
+      </div>
+    </nav>
+
+    <div class="js-cover screen-cover hidden"></div>
+    <div class="js-pb-popup pb-modal hidden">
+      <button class="js-x-button x-button">X</button>
+      <div class="pb-popup-title-container">
+        <p class="js-pb-popup-title pb-popup-title">Best single</p>
+      </div>
+
+      <div class="pb-popup-big-container">
+        <div class="js-pb-popup-times pb-popup-times-container">
+          <p class="pb-popup-time"></p>
+        </div>
+
+        <div class="js-pb-popup-scrambles pb-popup-scrambles-container">
+          <p class="pb-popup-scramble"></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="scripts/timer-script.js"></script>
+  </body>
 </html>
