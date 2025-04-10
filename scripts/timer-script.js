@@ -156,8 +156,8 @@ let randNum = 0;
 let encMessages = [
     "You're doing great!",
     "Awesome session!",
-    "I'm here for you!",
-    "You got this!"
+    "Great!",
+    "Awesome!"
 ];
 
 
